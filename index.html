@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agronified — Farm. Sell. Grow.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--earth:#0f0a04;--soil:#2c1a07;--clay:#7a4f1e;--gold:#e8a020;--gold-light:#f0c060;--palm:#c8441a;--leaf:#3a7a2e;--leaf-light:#5aaa4e;--sky:#1a5f8a;--sky-light:#2a8fc4;--mist:#f5f0e8;--cream:#fdf8ef;--white:#fff;--text:#1a1208;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:rgba(15,10,4,0.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,160,32,0.08);}
+.logo{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:900;color:var(--gold);cursor:pointer;letter-spacing:-.5px;}
+.logo span{color:var(--palm);}
+.nav-links{display:flex;gap:.15rem;}
+.nav-link{padding:.4rem .85rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:none;border-radius:4px;transition:all .2s;}
+.nav-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05);}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.1);}
+.lang-switcher{display:flex;gap:.3rem;}
+.lang-btn{padding:.28rem .55rem;border:1px solid rgba(232,160,32,.3);background:transparent;color:var(--gold);font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;border-radius:3px;transition:all .2s;}
+.lang-btn.active,.lang-btn:hover{background:var(--gold);color:var(--earth);}
+
+/* PAGE SYSTEM */
+.page{display:none;min-height:100vh;padding-top:60px;}
+.page.active{display:block;}
+
+/* SHARED BUTTONS */
+.btn-gold{background:var(--gold);color:var(--earth);padding:.8rem 1.8rem;border:none;border-radius:5px;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;transition:all .2s;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,160,32,.3);}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.75);padding:.8rem 1.8rem;border:1px solid rgba(255,255,255,.2);border-radius:5px;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+
+/* ═══ HOME PAGE ═══ */
+.home-hero{min-height:calc(100vh - 60px);background:var(--earth);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;}
+.hero-mesh{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 60% at 75% 55%,rgba(200,68,26,.14) 0%,transparent 65%),radial-gradient(ellipse 45% 50% at 15% 35%,rgba(232,160,32,.09) 0%,transparent 55%);}
+.hero-dots{position:absolute;inset:0;pointer-events:none;opacity:.035;background-image:radial-gradient(var(--gold) 1px,transparent 1px);background-size:28px 28px;}
+.hero-left{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 4rem;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.25);color:var(--gold);padding:.32rem .85rem;border-radius:2rem;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.6rem;width:fit-content;animation:fadeUp .6s ease both;}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,4vw,4.2rem);font-weight:900;line-height:1.06;color:#fff;margin-bottom:1.3rem;animation:fadeUp .6s .1s ease both;}
+.hero-h1 em{font-style:italic;color:var(--gold);}
+.hero-h1 .green{color:var(--leaf-light);font-style:normal;}
+.hero-sub{font-size:1rem;line-height:1.75;color:rgba(255,255,255,.55);max-width:460px;margin-bottom:2.2rem;animation:fadeUp .6s .2s ease both;}
+.hero-ctas{display:flex;gap:.8rem;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;}
+.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:1.8rem;border-top:1px solid rgba(255,255,255,.07);animation:fadeUp .6s .4s ease both;}
+.stat .n{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--gold);line-height:1;}
+.stat .l{font-size:.72rem;color:rgba(255,255,255,.38);margin-top:.3rem;}
+.hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;padding:3rem 3rem 3rem 1.5rem;}
+.hero-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;width:100%;max-width:400px;}
+.hc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem;cursor:pointer;transition:all .25s;animation:fadeUp .5s ease both;}
+.hc:hover{background:rgba(232,160,32,.07);border-color:rgba(232,160,32,.3);transform:translateY(-3px);}
+.hc .hci{font-size:1.6rem;margin-bottom:.5rem;}
+.hc .hcn{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.18rem;}
+.hc .hct{font-size:.67rem;color:rgba(255,255,255,.38);}
+.hc .hcm{font-size:.65rem;color:var(--gold);margin-top:.4rem;font-family:'Syne',sans-serif;font-weight:700;}
+.hc-all{grid-column:1/-1;background:rgba(232,160,32,.08);border:1px dashed rgba(232,160,32,.35);border-radius:12px;padding:.8rem;text-align:center;cursor:pointer;transition:all .2s;}
+.hc-all:hover{background:rgba(232,160,32,.14);}
+.hc-all span{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:var(--gold);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* Features strip */
+.features-strip{background:var(--soil);padding:3rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+.feature-item{display:flex;gap:.9rem;align-items:flex-start;}
+.fi-icon{width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.fi-icon.green{background:rgba(58,122,46,.2);}
+.fi-icon.gold{background:rgba(232,160,32,.15);}
+.fi-icon.red{background:rgba(200,68,26,.15);}
+.fi-icon.blue{background:rgba(26,95,138,.25);}
+.fi-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.fi-desc{font-size:.74rem;color:rgba(255,255,255,.4);line-height:1.5;}
+
+/* ═══ CROPS PAGE ═══ */
+.crops-page{background:var(--cream);}
+.crops-header{background:var(--earth);padding:3rem 4rem 2.5rem;position:relative;overflow:hidden;}
+.crops-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(to bottom,transparent,var(--cream));}
+.crops-header-inner{position:relative;z-index:1;}
+.ch-label{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,160,32,.7);margin-bottom:.5rem;}
+.ch-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:#fff;margin-bottom:.7rem;}
+.ch-sub{font-size:.9rem;color:rgba(255,255,255,.45);max-width:520px;line-height:1.6;}
+.search-bar{display:flex;margin-top:1.8rem;max-width:420px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;}
+.search-bar input{flex:1;padding:.7rem 1rem;background:none;border:none;color:#fff;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;}
+.search-bar input::placeholder{color:rgba(255,255,255,.3);}
+.search-bar .s-btn{padding:.7rem 1.1rem;background:var(--gold);border:none;color:var(--earth);font-size:.88rem;cursor:pointer;}
+.crop-filters{display:flex;gap:.45rem;flex-wrap:wrap;padding:1.8rem 4rem 0;}
+.filter-btn{padding:.38rem .9rem;border:1px solid rgba(61,43,14,.15);background:#fff;border-radius:99px;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:rgba(26,18,8,.55);cursor:pointer;transition:all .2s;}
+.filter-btn:hover{border-color:var(--leaf);color:var(--leaf);}
+.filter-btn.active{background:var(--leaf);border-color:var(--leaf);color:#fff;}
+.filter-btn.animal-f.active{background:var(--sky);border-color:var(--sky);}
+.filter-btn.animal-f:hover{border-color:var(--sky);color:var(--sky);}
+.crops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.4rem;padding:1.8rem 4rem 4rem;}
+.crop-card{background:#fff;border-radius:16px;border:1px solid rgba(61,43,14,.07);overflow:hidden;cursor:pointer;box-shadow:0 2px 14px rgba(61,43,14,.05);transition:all .3s;}
+.crop-card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(61,43,14,.12);border-color:rgba(61,43,14,.15);}
+.crop-card.animal-card:hover{box-shadow:0 16px 36px rgba(26,95,138,.12);border-color:rgba(26,95,138,.2);}
+.crop-card-top{padding:1.6rem 1.6rem 1.1rem;position:relative;}
+.crop-card-icon{font-size:2.6rem;margin-bottom:.9rem;display:block;}
+.demo-badge{position:absolute;top:.9rem;right:.9rem;background:rgba(200,68,26,.1);color:var(--palm);border:1px solid rgba(200,68,26,.2);padding:.22rem .6rem;border-radius:99px;font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;}
+.animal-badge{position:absolute;top:.9rem;right:.9rem;background:rgba(26,95,138,.1);color:var(--sky);border:1px solid rgba(26,95,138,.2);padding:.22rem .6rem;border-radius:99px;font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;}
+.crop-card-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:.22rem;}
+.crop-card-sci{font-size:.7rem;color:rgba(26,18,8,.38);font-style:italic;margin-bottom:.7rem;}
+.crop-card-why{font-size:.8rem;line-height:1.6;color:rgba(26,18,8,.6);margin-bottom:.9rem;}
+.crop-card-tags{display:flex;gap:.38rem;flex-wrap:wrap;}
+.ctag{font-size:.64rem;padding:.18rem .55rem;border-radius:3px;font-family:'Syne',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
+.ctag.g{background:rgba(58,122,46,.1);color:var(--leaf);}
+.ctag.o{background:rgba(232,160,32,.1);color:var(--clay);}
+.ctag.r{background:rgba(200,68,26,.1);color:var(--palm);}
+.ctag.b{background:rgba(26,95,138,.1);color:var(--sky);}
+.crop-card-footer{border-top:1px solid rgba(61,43,14,.07);padding:.9rem 1.6rem;display:flex;align-items:center;justify-content:space-between;background:rgba(245,240,232,.5);}
+.animal-card .crop-card-footer{background:rgba(230,240,250,.5);}
+.cf-duration{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:rgba(26,18,8,.5);}
+.cf-btn{background:var(--earth);color:#fff;padding:.38rem .95rem;border-radius:4px;border:none;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.animal-card:hover .cf-btn{background:var(--sky);}
+.crop-card:hover .cf-btn{background:var(--leaf);}
+
+/* ═══ DETAIL PAGE ═══ */
+.detail-page{background:var(--cream);}
+.detail-hero{background:var(--earth);padding:2.2rem 4rem 2.8rem;position:relative;overflow:hidden;}
+.detail-back{display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.45);font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;border:none;background:none;margin-bottom:1.4rem;transition:color .2s;padding:0;}
+.detail-back:hover{color:var(--gold);}
+.detail-hero-inner{display:flex;align-items:flex-start;gap:1.8rem;}
+.detail-icon{font-size:3.2rem;line-height:1;flex-shrink:0;}
+.detail-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:.25rem;}
+.detail-sci{font-size:.82rem;color:rgba(255,255,255,.35);font-style:italic;margin-bottom:.7rem;}
+.detail-why{font-size:.9rem;color:rgba(255,255,255,.55);max-width:580px;line-height:1.65;margin-bottom:1.1rem;}
+.detail-meta{display:flex;gap:.9rem;flex-wrap:wrap;}
+.dmeta{display:flex;align-items:center;gap:.4rem;font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.5);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:.28rem .75rem;border-radius:99px;}
+.stages-nav{background:var(--soil);padding:0 4rem;display:flex;gap:0;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,.06);}
+.stage-nav-btn{display:flex;align-items:center;gap:.45rem;padding:.85rem 1.2rem;border:none;background:none;color:rgba(255,255,255,.4);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+.stage-nav-btn:hover{color:rgba(255,255,255,.75);}
+.stage-nav-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.stage-nav-num{width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;background:rgba(255,255,255,.08);flex-shrink:0;}
+.stage-nav-btn.active .stage-nav-num{background:var(--gold);color:var(--earth);}
+
+/* Stage content */
+.stage-content{padding:2.5rem 4rem 4rem;}
+.sc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;margin-bottom:2rem;}
+.sc-num{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--palm);margin-bottom:.35rem;}
+.sc-title{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--text);}
+.sc-duration-badge{background:var(--earth);color:var(--gold);padding:.45rem 1.1rem;border-radius:99px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+
+/* Visual illustration */
+.sc-visual{margin-bottom:2rem;border-radius:14px;overflow:hidden;background:var(--soil);border:1px solid rgba(255,255,255,.06);position:relative;}
+.sc-visual-inner{display:flex;align-items:center;gap:2rem;padding:1.5rem 2rem;}
+.sc-emoji-scene{font-size:3.5rem;line-height:1;flex-shrink:0;}
+.sc-visual-info{flex:1;}
+.sc-visual-title{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;color:var(--gold);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;}
+.sc-visual-steps{display:flex;gap:.5rem;flex-wrap:wrap;}
+.sc-vstep{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.06);border-radius:6px;padding:.35rem .7rem;}
+.sc-vstep-icon{font-size:.9rem;}
+.sc-vstep-text{font-size:.72rem;color:rgba(255,255,255,.65);}
+.yt-link{display:inline-flex;align-items:center;gap:.5rem;background:#ff0000;color:#fff;padding:.5rem 1.1rem;border-radius:6px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;text-decoration:none;transition:all .2s;margin-top:.9rem;}
+.yt-link:hover{background:#cc0000;transform:translateX(2px);}
+.yt-icon{font-size:1rem;}
+
+.sc-body{display:grid;grid-template-columns:1.4fr 1fr;gap:2.2rem;align-items:start;}
+.sc-text{font-size:.92rem;line-height:1.8;color:rgba(26,18,8,.72);}
+.sc-text p{margin-bottom:.9rem;}
+.sc-text strong{color:var(--text);font-weight:500;}
+.info-cards{display:flex;flex-direction:column;gap:.9rem;}
+.info-card{background:#fff;border:1px solid rgba(61,43,14,.07);border-radius:12px;padding:1.1rem;box-shadow:0 2px 10px rgba(61,43,14,.04);}
+.ic-label{font-family:'Syne',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.7rem;padding-bottom:.55rem;border-bottom:1px solid rgba(61,43,14,.07);}
+.ic-label.green{color:var(--leaf);}
+.ic-label.red{color:var(--palm);}
+.ic-label.gold{color:var(--clay);}
+.ic-items{display:flex;flex-direction:column;gap:.45rem;}
+.ic-item{display:flex;align-items:flex-start;gap:.45rem;font-size:.78rem;line-height:1.5;color:rgba(26,18,8,.65);}
+.ic-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ic-dot.green{background:var(--leaf);}
+.ic-dot.red{background:var(--palm);}
+.ic-dot.gold{background:var(--gold);}
+.stage-nav-footer{display:flex;justify-content:space-between;align-items:center;margin-top:2.2rem;padding-top:1.8rem;border-top:1px solid rgba(61,43,14,.08);}
+.snf-btn{display:flex;align-items:center;gap:.45rem;padding:.65rem 1.3rem;border-radius:6px;border:none;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.snf-btn.prev{background:rgba(61,43,14,.06);color:rgba(26,18,8,.6);}
+.snf-btn.prev:hover{background:rgba(61,43,14,.1);}
+.snf-btn.next{background:var(--leaf);color:#fff;}
+.snf-btn.next:hover{background:#2d6023;}
+.snf-btn:disabled{opacity:.3;cursor:not-allowed;}
+.stage-progress{display:flex;align-items:center;gap:.7rem;font-family:'Syne',sans-serif;font-size:.72rem;color:rgba(26,18,8,.4);font-weight:700;}
+.sp-bar{width:110px;height:4px;background:rgba(61,43,14,.1);border-radius:2px;overflow:hidden;}
+.sp-fill{height:100%;background:var(--leaf);border-radius:2px;transition:width .3s;}
+
+/* ═══ ADVISOR PAGE ═══ */
+.advisor-page{background:var(--cream);}
+.advisor-hero{background:linear-gradient(135deg,var(--earth) 0%,#1a2d0a 100%);padding:3rem 4rem;position:relative;overflow:hidden;}
+.advisor-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 80% 50%,rgba(58,122,46,.15) 0%,transparent 70%);}
+.ah-inner{position:relative;z-index:1;}
+.ah-label{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(90,170,78,.8);margin-bottom:.5rem;}
+.ah-title{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:900;color:#fff;margin-bottom:.6rem;}
+.ah-sub{font-size:.9rem;color:rgba(255,255,255,.5);max-width:500px;line-height:1.6;}
+
+.advisor-body{padding:2.5rem 4rem 4rem;}
+.advisor-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+
+/* Advisor Form */
+.advisor-form{background:#fff;border-radius:16px;border:1px solid rgba(61,43,14,.08);padding:2rem;box-shadow:0 4px 20px rgba(61,43,14,.06);}
+.af-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:1.5rem;text-transform:uppercase;letter-spacing:.06em;}
+.af-section{margin-bottom:1.5rem;}
+.af-label{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:rgba(26,18,8,.55);margin-bottom:.6rem;display:block;}
+.af-row{display:flex;gap:.75rem;}
+.af-input{width:100%;padding:.65rem .9rem;border:1px solid rgba(61,43,14,.12);border-radius:8px;font-size:.85rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s;background:#fff;}
+.af-input:focus{border-color:var(--leaf);}
+.af-select{width:100%;padding:.65rem .9rem;border:1px solid rgba(61,43,14,.12);border-radius:8px;font-size:.85rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;cursor:pointer;background:#fff;}
+.gps-btn{display:flex;align-items:center;gap:.5rem;padding:.65rem 1.1rem;background:var(--leaf);color:#fff;border:none;border-radius:8px;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .2s;flex-shrink:0;}
+.gps-btn:hover{background:#2d6023;}
+.gps-status{font-size:.72rem;color:var(--leaf);font-style:italic;margin-top:.4rem;min-height:1rem;}
+.af-options{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.af-option{display:flex;align-items:center;gap:.5rem;padding:.55rem .8rem;border:1px solid rgba(61,43,14,.1);border-radius:8px;cursor:pointer;transition:all .2s;}
+.af-option:hover{border-color:var(--leaf);background:rgba(58,122,46,.04);}
+.af-option.selected{border-color:var(--leaf);background:rgba(58,122,46,.08);}
+.af-option input[type=checkbox]{accent-color:var(--leaf);width:14px;height:14px;}
+.af-option-label{font-size:.8rem;color:var(--text);}
+.advise-btn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--leaf),#2d6023);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .2s;margin-top:.5rem;}
+.advise-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,122,46,.3);}
+
+/* Advisor Results */
+.advisor-results{display:flex;flex-direction:column;gap:1.2rem;}
+.result-placeholder{background:rgba(58,122,46,.04);border:2px dashed rgba(58,122,46,.2);border-radius:14px;padding:3rem 2rem;text-align:center;}
+.rp-icon{font-size:2.5rem;margin-bottom:.8rem;}
+.rp-text{font-size:.9rem;color:rgba(26,18,8,.45);line-height:1.6;}
+.result-card{background:#fff;border-radius:14px;border:1px solid rgba(61,43,14,.07);overflow:hidden;box-shadow:0 2px 14px rgba(61,43,14,.05);animation:fadeUp .4s ease both;}
+.rc-header{padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;border-bottom:1px solid rgba(61,43,14,.06);}
+.rc-rank{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:800;flex-shrink:0;}
+.rc-rank.r1{background:linear-gradient(135deg,#ffd700,#e8a020);color:var(--earth);}
+.rc-rank.r2{background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#fff;}
+.rc-rank.r3{background:linear-gradient(135deg,#cd7f32,#a0522d);color:#fff;}
+.rc-icon{font-size:1.8rem;}
+.rc-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--text);}
+.rc-zone{font-size:.72rem;color:rgba(26,18,8,.45);}
+.rc-score-bar{height:4px;background:rgba(61,43,14,.07);}
+.rc-score-fill{height:100%;transition:width .8s ease;}
+.rc-body{padding:1rem 1.5rem;}
+.rc-reason{font-size:.82rem;color:rgba(26,18,8,.65);line-height:1.6;margin-bottom:.9rem;}
+.rc-stats{display:flex;gap:.9rem;flex-wrap:wrap;}
+.rc-stat{display:flex;flex-direction:column;}
+.rc-stat-val{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;color:var(--text);}
+.rc-stat-key{font-size:.65rem;color:rgba(26,18,8,.4);margin-top:.1rem;}
+.rc-actions{padding:1rem 1.5rem;background:rgba(245,240,232,.5);display:flex;gap:.6rem;border-top:1px solid rgba(61,43,14,.06);}
+.rc-btn{padding:.42rem .9rem;border-radius:5px;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;border:none;}
+.rc-btn.primary{background:var(--leaf);color:#fff;}
+.rc-btn.primary:hover{background:#2d6023;}
+.rc-btn.secondary{background:rgba(61,43,14,.07);color:rgba(26,18,8,.65);}
+.rc-btn.secondary:hover{background:rgba(61,43,14,.12);}
+
+/* ═══ MARKETPLACE PAGE ═══ */
+.market-page{background:var(--mist);}
+.market-hero{background:var(--earth);padding:2.8rem 4rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;}
+.mh-label{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,160,32,.65);margin-bottom:.45rem;}
+.mh-title{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:900;color:#fff;margin-bottom:.45rem;}
+.mh-sub{font-size:.88rem;color:rgba(255,255,255,.45);}
+.mh-stats{display:flex;gap:1.8rem;}
+.mhs .mn{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--gold);}
+.mhs .ml{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:.2rem;}
+.market-layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 64px - 130px);}
+.market-sidebar{background:#fff;border-right:1px solid rgba(61,43,14,.08);padding:1.4rem 0;}
+.ms-section{margin-bottom:1.4rem;}
+.ms-title{font-family:'Syne',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(26,18,8,.35);padding:0 1.1rem;margin-bottom:.45rem;}
+.ms-item{display:flex;align-items:center;gap:.7rem;padding:.5rem 1.1rem;cursor:pointer;transition:background .15s;border-left:2px solid transparent;}
+.ms-item:hover{background:rgba(61,43,14,.03);}
+.ms-item.active{background:rgba(58,122,46,.06);border-left-color:var(--leaf);}
+.ms-item-icon{font-size:.95rem;width:17px;text-align:center;}
+.ms-item-label{font-size:.8rem;color:rgba(26,18,8,.65);}
+.ms-item.active .ms-item-label{color:var(--leaf);font-weight:500;}
+.ms-count{margin-left:auto;font-family:'Syne',sans-serif;font-size:.63rem;font-weight:700;background:rgba(61,43,14,.06);color:rgba(26,18,8,.4);padding:.12rem .45rem;border-radius:99px;}
+.market-main{padding:1.4rem 1.8rem 3rem;}
+.sell-banner{background:linear-gradient(135deg,var(--soil),var(--earth));border:1px solid rgba(232,160,32,.15);border-radius:12px;padding:1.3rem;margin-bottom:1.4rem;display:flex;align-items:center;gap:1.3rem;}
+.sb-icon{font-size:1.9rem;}
+.sb-title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.2rem;}
+.sb-desc{font-size:.75rem;color:rgba(255,255,255,.45);}
+.sb-cta{margin-left:auto;flex-shrink:0;}
+.market-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.9rem;margin-bottom:1.4rem;flex-wrap:wrap;}
+.mt-search{display:flex;align-items:center;gap:.45rem;background:#fff;border:1px solid rgba(61,43,14,.1);border-radius:8px;padding:.5rem .9rem;flex:1;max-width:340px;}
+.mt-search input{border:none;background:none;font-size:.83rem;outline:none;flex:1;font-family:'DM Sans',sans-serif;color:var(--text);}
+.mt-search input::placeholder{color:rgba(26,18,8,.3);}
+.sort-sel{padding:.5rem .85rem;border:1px solid rgba(61,43,14,.12);background:#fff;border-radius:8px;font-size:.8rem;color:rgba(26,18,8,.65);font-family:'DM Sans',sans-serif;cursor:pointer;outline:none;}
+.list-sell-btn{background:var(--leaf);color:#fff;border:none;padding:.5rem 1.1rem;border-radius:8px;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.list-sell-btn:hover{background:#2d6023;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:1.1rem;}
+.product-card{background:#fff;border-radius:12px;border:1px solid rgba(61,43,14,.07);overflow:hidden;cursor:pointer;box-shadow:0 1px 7px rgba(61,43,14,.04);transition:all .22s;}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(61,43,14,.1);border-color:rgba(61,43,14,.15);}
+.pc-img{height:115px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;position:relative;}
+.pc-badge{position:absolute;top:.55rem;right:.55rem;font-family:'Syne',sans-serif;font-size:.58rem;font-weight:700;padding:.15rem .45rem;border-radius:3px;text-transform:uppercase;letter-spacing:.04em;}
+.badge-exp{background:rgba(200,68,26,.1);color:var(--palm);}
+.badge-loc{background:rgba(58,122,46,.12);color:var(--leaf);}
+.badge-org{background:rgba(232,160,32,.12);color:var(--clay);}
+.pc-body{padding:.85rem;}
+.pc-name{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.16rem;color:var(--text);}
+.pc-seller{font-size:.68rem;color:rgba(26,18,8,.4);margin-bottom:.55rem;}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;}
+.pc-price{font-family:'Syne',sans-serif;font-weight:800;color:var(--palm);font-size:.88rem;}
+.pc-unit{font-size:.65rem;color:rgba(26,18,8,.38);font-weight:400;}
+.add-cart{width:25px;height:25px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+.add-cart:hover{background:var(--leaf);color:#fff;transform:scale(1.15);}
+.buyers-section{margin-top:2.2rem;}
+.buyers-title{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(26,18,8,.4);margin-bottom:.9rem;}
+.buyers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.7rem;}
+.buyer-card{background:#fff;border:1px solid rgba(61,43,14,.07);border-radius:10px;padding:.9rem;text-align:center;transition:all .2s;cursor:pointer;}
+.buyer-card:hover{border-color:var(--leaf);transform:translateY(-2px);}
+.bc-flag{font-size:1.5rem;margin-bottom:.35rem;}
+.bc-country{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:.18rem;}
+.bc-demand{font-size:.65rem;color:rgba(26,18,8,.45);}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .nav{padding:.8rem 1rem;}
+  .nav-links{display:none;}
+  section,.advisor-body,.advisor-hero,.crops-header,.crops-grid,.crop-filters,.detail-hero,.stage-content,.market-hero,.features-strip{padding-left:1.2rem!important;padding-right:1.2rem!important;}
+  .home-hero{grid-template-columns:1fr;}
+  .hero-right,.hero-stats{display:none;}
+  .hero-left{padding:2.5rem 1.2rem;}
+  .features-strip{grid-template-columns:1fr 1fr;}
+  .crops-grid{grid-template-columns:1fr;}
+  .stages-nav{padding:0 1.2rem;}
+  .sc-body{grid-template-columns:1fr;}
+  .advisor-grid{grid-template-columns:1fr;}
+  .market-layout{grid-template-columns:1fr;}
+  .market-sidebar{display:none;}
+  .market-main{padding:1.2rem;}
+  .products-grid{grid-template-columns:repeat(2,1fr);}
+  .mh-stats{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="nav">
+  <div class="logo" onclick="goPage('home')">Agro<span>nified</span></div>
+  <div class="nav-links">
+    <button class="nav-link active" id="nav-home" onclick="goPage('home')">Home</button>
+    <button class="nav-link" id="nav-crops" onclick="goPage('crops')">Learn</button>
+    <button class="nav-link" id="nav-advisor" onclick="goPage('advisor')">Crop Advisor</button>
+    <button class="nav-link" id="nav-market" onclick="goPage('market')">Marketplace</button>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+    <button class="lang-btn" onclick="setLang('yo',this)">YO</button>
+    <button class="lang-btn" onclick="setLang('ha',this)">HA</button>
+    <button class="lang-btn" onclick="setLang('ig',this)">IG</button>
+  </div>
+</nav>
+
+<!-- ══ HOME PAGE ══ -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="hero-mesh"></div><div class="hero-dots"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">🌿 Nigeria's #1 Farming Platform — Agronified</div>
+      <h1 class="hero-h1" id="h-title"><em>Grow</em> anything.<br><span class="green">Raise</span> livestock.<br>Sell everywhere.</h1>
+      <p class="hero-sub" id="h-sub">Learn crop farming & animal husbandry from scratch. Get a smart advisor to find the best crop for your location. Shop inputs and sell your harvest globally.</p>
+      <div class="hero-ctas">
+        <button class="btn-gold" onclick="goPage('crops')" id="h-cta1">Start Learning →</button>
+        <button class="btn-ghost" onclick="goPage('advisor')" id="h-cta2">Get Crop Advice</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="n">12K+</div><div class="l" id="h-s1">Farmers enrolled</div></div>
+        <div class="stat"><div class="n">18+</div><div class="l" id="h-s2">Crops covered</div></div>
+        <div class="stat"><div class="n">8</div><div class="l" id="h-s3">Animals covered</div></div>
+        <div class="stat"><div class="n">40+</div><div class="l" id="h-s4">Export countries</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-cards-grid">
+        <div class="hc" style="animation-delay:.1s" onclick="openCrop('palm')"><div class="hci">🌴</div><div class="hcn">Palm Oil</div><div class="hct">3–4 yrs · South Nigeria</div><div class="hcm">Demo crop →</div></div>
+        <div class="hc" style="animation-delay:.2s" onclick="openAnimal('poultry')"><div class="hci">🐔</div><div class="hcn">Poultry Farming</div><div class="hct">6–8 weeks · All zones</div><div class="hcm">View guide →</div></div>
+        <div class="hc" style="animation-delay:.3s" onclick="openAnimal('catfish')"><div class="hci">🐟</div><div class="hcn">Catfish Farming</div><div class="hct">5–6 months · All zones</div><div class="hcm">View guide →</div></div>
+        <div class="hc" style="animation-delay:.4s" onclick="goPage('advisor')"><div class="hci">🧠</div><div class="hcn">Smart Crop Advisor</div><div class="hct">GPS-based recommendations</div><div class="hcm">Get advice →</div></div>
+        <div class="hc-all" onclick="goPage('crops')"><span>Browse all crops & animals in the learning library →</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="features-strip">
+    <div class="feature-item"><div class="fi-icon green">📚</div><div><div class="fi-title" id="fi1t">Crops & Animals</div><div class="fi-desc" id="fi1d">Full guides for crop farming & livestock in Yoruba, Hausa, Igbo, English.</div></div></div>
+    <div class="feature-item"><div class="fi-icon blue">🧠</div><div><div class="fi-title" id="fi2t">Smart Crop Advisor</div><div class="fi-desc" id="fi2d">GPS or manual location detects your zone and recommends the best crops for you.</div></div></div>
+    <div class="feature-item"><div class="fi-icon gold">🛒</div><div><div class="fi-title" id="fi3t">Buy & Sell</div><div class="fi-desc" id="fi3d">Order certified seeds, feeds, tools. List your harvest for local and global buyers.</div></div></div>
+    <div class="feature-item"><div class="fi-icon red">🌍</div><div><div class="fi-title" id="fi4t">Export Globally</div><div class="fi-desc" id="fi4d">Connect with verified buyers in Europe, Asia, and across Africa.</div></div></div>
+  </div>
+</div>
+
+<!-- ══ LEARN PAGE (Crops + Animals) ══ -->
+<div class="page" id="page-crops">
+  <div class="crops-page">
+    <div class="crops-header">
+      <div class="crops-header-inner">
+        <div class="ch-label">📋 Learning Library</div>
+        <div class="ch-title" id="cr-title">Crops & Animal Husbandry</div>
+        <div class="ch-sub" id="cr-sub">Choose any crop or animal below to open a complete step-by-step guide — from preparation all the way to selling.</div>
+        <div class="search-bar"><input type="text" placeholder="Search crops or animals..." id="crop-search" oninput="filterCrops()"><button class="s-btn">🔍</button></div>
+      </div>
+    </div>
+    <div class="crop-filters">
+      <button class="filter-btn active" onclick="setCropFilter('all',this)">All</button>
+      <button class="filter-btn" onclick="setCropFilter('cash',this)">Cash Crops</button>
+      <button class="filter-btn" onclick="setCropFilter('food',this)">Food Crops</button>
+      <button class="filter-btn" onclick="setCropFilter('vegetable',this)">Vegetables</button>
+      <button class="filter-btn" onclick="setCropFilter('perennial',this)">Perennials</button>
+      <button class="filter-btn animal-f" onclick="setCropFilter('animal',this)">🐄 Animal Husbandry</button>
+    </div>
+    <div class="crops-grid" id="crops-grid"></div>
+  </div>
+</div>
+
+<!-- ══ DETAIL PAGE ══ -->
+<div class="page" id="page-detail">
+  <div class="detail-page">
+    <div class="detail-hero" id="detail-hero"></div>
+    <div class="stages-nav" id="stages-nav"></div>
+    <div class="stage-content" id="stage-content"></div>
+  </div>
+</div>
+
+<!-- ══ SMART ADVISOR PAGE ══ -->
+<div class="page" id="page-advisor">
+  <div class="advisor-page">
+    <div class="advisor-hero">
+      <div class="ah-inner">
+        <div class="ah-label">🧠 Smart Crop Advisor</div>
+        <div class="ah-title">What Should You Farm?</div>
+        <div class="ah-sub">Tell us your location, soil type, budget and season — our advisor will recommend the best crops for your specific conditions.</div>
+      </div>
+    </div>
+    <div class="advisor-body">
+      <div class="advisor-grid">
+        <div class="advisor-form">
+          <div class="af-title">📍 Your Farming Conditions</div>
+
+          <div class="af-section">
+            <label class="af-label">Location (State / LGA)</label>
+            <div class="af-row">
+              <input class="af-input" type="text" id="af-location" placeholder="e.g. Ondo State, Akure LGA">
+              <button class="gps-btn" onclick="getGPS()">📡 Use GPS</button>
+            </div>
+            <div class="gps-status" id="gps-status"></div>
+          </div>
+
+          <div class="af-section">
+            <label class="af-label">Agro-Ecological Zone</label>
+            <select class="af-select" id="af-zone">
+              <option value="">— Select or auto-detected from GPS —</option>
+              <option value="rainforest">Rainforest Zone (South South / South West)</option>
+              <option value="derived_savanna">Derived Savanna (South East, parts of SW)</option>
+              <option value="guinea_savanna">Guinea Savanna (Middle Belt)</option>
+              <option value="sudan_savanna">Sudan Savanna (North East / North West)</option>
+              <option value="sahel">Sahel Savanna (Far North)</option>
+            </select>
+          </div>
+
+          <div class="af-section">
+            <label class="af-label">Soil Type</label>
+            <select class="af-select" id="af-soil">
+              <option value="">— Select your soil type —</option>
+              <option value="sandy_loam">Sandy Loam (loose, well-drained)</option>
+              <option value="clay_loam">Clay Loam (heavy, holds water)</option>
+              <option value="sandy">Sandy (very light, fast-draining)</option>
+              <option value="alluvial">Alluvial / Riverine (very fertile)</option>
+              <option value="laterite">Laterite / Hard pan</option>
+            </select>
+          </div>
+
+          <div class="af-section">
+            <label class="af-label">Current Season</label>
+            <select class="af-select" id="af-season">
+              <option value="">— Select current season —</option>
+              <option value="early_rains">Early Rains (March – May)</option>
+              <option value="peak_rains">Peak Rains (June – August)</option>
+              <option value="late_rains">Late Rains (September – October)</option>
+              <option value="dry_season">Dry Season (November – February)</option>
+            </select>
+          </div>
+
+          <div class="af-section">
+            <label class="af-label">Farm Size</label>
+            <select class="af-select" id="af-size">
+              <option value="">— Select farm size —</option>
+              <option value="small">Smallholder (under 1 hectare)</option>
+              <option value="medium">Medium (1–5 hectares)</option>
+              <option value="large">Commercial (5+ hectares)</option>
+            </select>
+          </div>
+
+          <div class="af-section">
+            <label class="af-label">Your Goal (select all that apply)</label>
+            <div class="af-options">
+              <label class="af-option"><input type="checkbox" value="food" onchange="toggleGoal(this)"><span class="af-option-label">🍽 Home food supply</span></label>
+              <label class="af-option"><input type="checkbox" value="income" onchange="toggleGoal(this)"><span class="af-option-label">💰 Income / profit</span></label>
+              <label class="af-option"><input type="checkbox" value="export" onchange="toggleGoal(this)"><span class="af-option-label">✈️ Export market</span></label>
+              <label class="af-option"><input type="checkbox" value="quick" onchange="toggleGoal(this)"><span class="af-option-label">⚡ Quick harvest</span></label>
+            </div>
+          </div>
+
+          <button class="advise-btn" onclick="runAdvisor()">🌱 Get My Crop Recommendations →</button>
+        </div>
+
+        <div id="advisor-results">
+          <div class="result-placeholder">
+            <div class="rp-icon">🌾</div>
+            <div class="rp-text">Fill in your farming conditions on the left and click <strong>Get My Crop Recommendations</strong> to see what crops are best suited for you.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARKETPLACE PAGE ══ -->
+<div class="page" id="page-market">
+  <div class="market-page">
+    <div class="market-hero">
+      <div class="mh-left">
+        <div class="mh-label">🛒 Agronified Marketplace</div>
+        <div class="mh-title">Buy Inputs. Sell Produce.</div>
+        <div class="mh-sub">Everything you need to farm — from seeds and feeds to equipment. And a ready market for your harvest.</div>
+      </div>
+      <div class="mh-stats">
+        <div class="mhs"><div class="mn">2,400+</div><div class="ml">Products listed</div></div>
+        <div class="mhs"><div class="mn">₦4.2B</div><div class="ml">Traded this month</div></div>
+        <div class="mhs"><div class="mn">38</div><div class="ml">Export countries</div></div>
+      </div>
+    </div>
+    <div class="market-layout">
+      <div class="market-sidebar">
+        <div class="ms-section">
+          <div class="ms-title">Categories</div>
+          <div class="ms-item active" onclick="filterMarket('all',this)"><span class="ms-item-icon">🌾</span><span class="ms-item-label">All Products</span><span class="ms-count">2,400</span></div>
+          <div class="ms-item" onclick="filterMarket('seeds',this)"><span class="ms-item-icon">🌱</span><span class="ms-item-label">Seeds & Seedlings</span><span class="ms-count">312</span></div>
+          <div class="ms-item" onclick="filterMarket('fertilizer',this)"><span class="ms-item-icon">🧪</span><span class="ms-item-label">Fertilizers</span><span class="ms-count">148</span></div>
+          <div class="ms-item" onclick="filterMarket('tools',this)"><span class="ms-item-icon">🔧</span><span class="ms-item-label">Tools & Equipment</span><span class="ms-count">220</span></div>
+          <div class="ms-item" onclick="filterMarket('produce',this)"><span class="ms-item-icon">🍅</span><span class="ms-item-label">Fresh Produce</span><span class="ms-count">890</span></div>
+          <div class="ms-item" onclick="filterMarket('processed',this)"><span class="ms-item-icon">🛢️</span><span class="ms-item-label">Processed Products</span><span class="ms-count">430</span></div>
+          <div class="ms-item" onclick="filterMarket('livestock',this)"><span class="ms-item-icon">🐄</span><span class="ms-item-label">Livestock & Feeds</span><span class="ms-count">280</span></div>
+        </div>
+        <div class="ms-section">
+          <div class="ms-title">Market Type</div>
+          <div class="ms-item" onclick="filterMarket('local',this)"><span class="ms-item-icon">📍</span><span class="ms-item-label">Local Market</span></div>
+          <div class="ms-item" onclick="filterMarket('export',this)"><span class="ms-item-icon">✈️</span><span class="ms-item-label">Export Ready</span></div>
+        </div>
+        <div class="ms-section">
+          <div class="ms-title">Your Account</div>
+          <div class="ms-item"><span class="ms-item-icon">📦</span><span class="ms-item-label">My Listings</span></div>
+          <div class="ms-item"><span class="ms-item-icon">🛒</span><span class="ms-item-label">My Orders</span></div>
+          <div class="ms-item"><span class="ms-item-icon">💬</span><span class="ms-item-label">Messages</span></div>
+        </div>
+      </div>
+      <div class="market-main">
+        <div class="sell-banner">
+          <div class="sb-icon">🌴</div>
+          <div><div class="sb-title">Ready to sell your harvest?</div><div class="sb-desc">List your produce and connect with local and international buyers. Free to list.</div></div>
+          <div class="sb-cta"><button class="btn-gold" style="padding:.6rem 1.3rem;font-size:.78rem">List Produce →</button></div>
+        </div>
+        <div class="market-toolbar">
+          <div class="mt-search"><span style="color:rgba(26,18,8,.3);font-size:.88rem">🔍</span><input type="text" placeholder="Search products, sellers, locations..."></div>
+          <div style="display:flex;gap:.5rem;align-items:center">
+            <select class="sort-sel"><option>Sort: Newest</option><option>Price: Low–High</option><option>Price: High–Low</option><option>Most Popular</option></select>
+            <button class="list-sell-btn">+ List Item</button>
+          </div>
+        </div>
+        <div class="products-grid" id="products-grid"></div>
+        <div class="buyers-section">
+          <div class="buyers-title">🌍 International Buyers Seeking Nigerian Produce</div>
+          <div class="buyers-grid" id="buyers-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   ALL CROP DATA (with YouTube links + visual scenes)
+═══════════════════════════════════ */
+const CROPS = [
+  {
+    id:'palm',icon:'🌴',name:'Palm Oil',sci:'Elaeis guineensis',demo:true,
+    category:['cash','export','perennial'],duration:'3–4 years',zone:'Southern Nigeria',yield:'20–25t FFB/ha/yr',
+    why:'Nigeria is the 5th largest palm oil producer globally. A single hectare earns ₦1.5M–₦4M per year at maturity. Palm oil powers local cooking and global industries from soap to biodiesel.',
+    tags:[{t:'High income',c:'g'},{t:'Export crop',c:'r'},{t:'Perennial',c:'o'}],
+    stages:[
+      {name:'Soil Preparation',short:'Soil',duration:'2–4 weeks',
+       scene:{emoji:'🏔️🪱🧪',title:'What happens underground',steps:[{i:'🪱',t:'Earthworms loosen soil'},{i:'🧪',t:'pH test: target 4.5–6.5'},{i:'🚜',t:'Deep till 60cm'},{i:'🌿',t:'Add organic matter'}]},
+       yt:{label:'How to prepare land for palm oil farming',url:'https://www.youtube.com/results?search_query=palm+oil+land+preparation+Nigeria'},
+       body:`<p>Palm oil thrives in deep, well-drained, loamy soils. <strong>Test your soil's pH</strong> — ideal range is 4.5 to 6.5. Southern Nigerian soils in Rivers, Cross River, and Edo states are naturally suited.</p><p>Clear vegetation completely. Deep-till to at least 60cm — palm roots need depth to anchor. Avoid waterlogged or clay-heavy ground. Apply agricultural lime if pH is below 4.5.</p>`,
+       tips:['Test soil pH before anything else','Sandy loam gives best results','Deep-till minimum 60cm','Apply lime if pH below 4.5'],
+       warnings:['Waterlogged soil kills palm roots','Clay-heavy soil stunts growth'],
+       notes:['Southern Nigeria soils are naturally acidic and suitable','Soil test kits available from state ADPs']},
+      {name:'Seedling Nursery',short:'Nursery',duration:'12–14 months',
+       scene:{emoji:'🌱🪴💧',title:'Nursery lifecycle',steps:[{i:'🌱',t:'Sow in polythene bags'},{i:'☀️',t:'50% shade first 3 months'},{i:'💧',t:'Water daily'},{i:'🪴',t:'Transplant at 12–14 months'}]},
+       yt:{label:'Palm oil nursery management — Nigeria',url:'https://www.youtube.com/results?search_query=palm+oil+seedling+nursery+Nigeria+NIFOR'},
+       body:`<p>Source <strong>certified DxP hybrid seeds</strong> from NIFOR in Benin City. Certified varieties yield 6–8 tonnes of oil per hectare vs 1–2 tonnes from wild palms.</p><p>Pre-nursery stage (3 months): sow in small polythene bags, water daily, keep under 50% shade. Main nursery (9–11 months): transplant to larger bags, apply sulphate of ammonia weekly. Harden seedlings by removing shade gradually before field planting.</p>`,
+       tips:['Only use NIFOR certified DxP seed','Water pre-nursery daily','Harden seedlings before field transplant'],
+       warnings:['Never plant uncertified seed'],
+       notes:['NIFOR HQ is in Benin City, Edo State']},
+      {name:'Field Planting',short:'Planting',duration:'1–2 weeks',
+       scene:{emoji:'🌧️🕳️🌴',title:'Planting day',steps:[{i:'🌧️',t:'Plant at start of rains'},{i:'📐',t:'9m triangular spacing'},{i:'🕳️',t:'60×60×60cm holes'},{i:'🌴',t:'143 palms per hectare'}]},
+       yt:{label:'Palm oil field planting and spacing guide',url:'https://www.youtube.com/results?search_query=palm+oil+planting+spacing+Nigeria'},
+       body:`<p>Plant at onset of rainy season — <strong>April to May</strong>. Use triangular planting pattern with 9 metres between each tree — giving approximately <strong>143 palms per hectare</strong>.</p><p>Dig holes 60×60×60cm. Mix topsoil with compost before backfilling. Plant with collar exactly at ground level. Stake young palms with bamboo against wind.</p>`,
+       tips:['Plant in April–May','9m triangular spacing','Mix topsoil with compost'],
+       warnings:['Never plant in dry season','Planting too deep causes collar rot'],
+       notes:['One worker can plant ~50 palms per day']},
+      {name:'Fertilizing & Care',short:'Care',duration:'Years 1–4 ongoing',
+       scene:{emoji:'💊🌿🪲',title:'Crop management',steps:[{i:'💊',t:'NPK 15-15-15 every 6 months'},{i:'🧪',t:'MgSO₄ from year 2'},{i:'🪲',t:'Check for Rhinoceros beetle'},{i:'✂️',t:'Weed 2m circle'}]},
+       yt:{label:'Palm oil fertilizer application and pest control',url:'https://www.youtube.com/results?search_query=palm+oil+fertilizer+pest+control+Nigeria'},
+       body:`<p>Apply <strong>NPK 15-15-15</strong> at planting and every 6 months. From year 2, add <strong>MgSO₄ (Kieserite)</strong> to prevent magnesium deficiency (yellowing fronds).</p><p>Weed regularly within 2m of each palm. Watch for <strong>Rhinoceros beetle</strong> — use Metarhizium fungi (biological) or Dimethoate. Mulch around palms to retain moisture.</p>`,
+       tips:['NPK 15-15-15 every 6 months','MgSO₄ from year 2','Weekly weed circle'],
+       warnings:['Yellow old fronds = Mg deficiency','Rhinoceros beetle kills young palms'],
+       notes:['Kieserite is affordable at agro-input shops']},
+      {name:'Harvesting FFBs',short:'Harvesting',duration:'Every 10–14 days from yr 3',
+       scene:{emoji:'🌴🔪📦',title:'Harvest process',steps:[{i:'👀',t:'5–10 loose fruits on ground'},{i:'🔪',t:'Cut bunch with sickle'},{i:'🫙',t:'Collect loose fruits too'},{i:'⚡',t:'Process within 48 hours'}]},
+       yt:{label:'How to harvest palm oil fresh fruit bunches Nigeria',url:'https://www.youtube.com/results?search_query=how+to+harvest+palm+oil+FFB+Nigeria'},
+       body:`<p>First harvest at <strong>3–4 years</strong>. A ripe bunch shows 5–10 loose fruits on the ground. Harvest every 10–14 days with a chisel or long-pole sickle.</p><p>Collect all fallen loose fruits — they contain up to 70% of available oil. <strong>Process within 24–48 hours</strong> of cutting to prevent FFA buildup.</p>`,
+       tips:['Harvest when 5–10 loose fruits on ground','Collect all loose fruits','Process within 48 hours'],
+       warnings:['Delay causes FFA buildup = rejected oil'],
+       notes:['Mature palms yield 20–25t FFB/ha/yr']},
+      {name:'Processing & Selling',short:'Processing',duration:'Within 48hrs of harvest',
+       scene:{emoji:'⚗️🛢️💰',title:'Oil extraction steps',steps:[{i:'♨️',t:'Steam sterilize bunches'},{i:'🥁',t:'Strip fruits off bunch'},{i:'⚙️',t:'Press & clarify oil'},{i:'🛢️',t:'Seal in drums & sell'}]},
+       yt:{label:'Palm oil processing — small scale Nigeria',url:'https://www.youtube.com/results?search_query=palm+oil+processing+small+scale+Nigeria'},
+       body:`<p>Steps: <strong>Sterilize → Strip → Press → Clarify → Store → Sell.</strong></p><p>Steam bunches 60–90 minutes. Strip fruits. Mash and press to extract Crude Palm Oil. Clarify by heating. CPO extraction: <strong>18–25% of FFB weight</strong>. Sell to mills, refineries, or package branded red palm oil for supermarkets at 3–4× bulk price.</p>`,
+       tips:['Steam sterilize within 48hrs','Filter before sealing drums','Branded oil = 3–4x more value'],
+       warnings:['Unsterilized fruit = high FFA = mill rejection'],
+       notes:['Mini palm presses cost ₦250,000–₦350,000']}
+    ]
+  },
+  {
+    id:'cassava',icon:'🌿',name:'Cassava',sci:'Manihot esculenta',
+    category:['food','cash','export'],duration:'8–18 months',zone:'All zones',yield:'15–40t/ha',
+    why:'Nigeria\'s most widely grown crop. Drought-tolerant, grows in poor soils, and feeds over 500 million Africans. Cassava starch is a major export product with strong European and Asian demand.',
+    tags:[{t:'Drought tolerant',c:'g'},{t:'All zones',c:'g'},{t:'Starch export',c:'r'}],
+    stages:[
+      {name:'Land Preparation',short:'Land',duration:'1–2 weeks',scene:{emoji:'🌾🚜🪱',title:'Land clearing & tilling',steps:[{i:'🪓',t:'Clear all vegetation'},{i:'🚜',t:'Till to 30cm depth'},{i:'🗻',t:'Form ridges/mounds'},{i:'🧪',t:'pH 5.5–7.0'}]},yt:{label:'Cassava land preparation Nigeria',url:'https://www.youtube.com/results?search_query=cassava+land+preparation+Nigeria'},body:`<p>Cassava grows in most soils but thrives in deep, loose, well-drained sandy loam with <strong>pH 5.5–7.0</strong>. Till to 30cm depth. Form ridges or mounds 1m apart to improve drainage and root development.</p>`,tips:['pH 5.5–7.0','Ridges improve drainage','Till to 30cm'],warnings:['Waterlogged land rots roots'],notes:['Grows even in poor soils']},
+      {name:'Stem Selection',short:'Stems',duration:'1–3 days',scene:{emoji:'✂️🌿📏',title:'Cutting stems',steps:[{i:'📏',t:'25–30cm cuttings'},{i:'🔢',t:'5+ nodes per cutting'},{i:'🌿',t:'8–10 month old stems'},{i:'🧴',t:'Treat with wood ash'}]},yt:{label:'How to select cassava stem cuttings',url:'https://www.youtube.com/results?search_query=cassava+stem+cuttings+selection+Nigeria'},body:`<p>Plant from <strong>stem cuttings</strong>, not seeds. Use healthy mature stems 8–10 months old. Cut into 25–30cm pieces with at least 5 nodes. Treat cut ends with wood ash or Thiram fungicide.</p>`,tips:['25–30cm cuttings, 5 nodes minimum','Store upright in shade','Treat with wood ash'],warnings:['Never use diseased stems'],notes:['IITA improved varieties give 2–3x yield']},
+      {name:'Planting',short:'Planting',duration:'1 week',scene:{emoji:'🌧️🌿📐',title:'Planting method',steps:[{i:'📐',t:'1m × 1m spacing'},{i:'↔️',t:'Flat planting = more roots'},{i:'🌧️',t:'Plant at rain onset'},{i:'🔢',t:'10,000 plants/hectare'}]},yt:{label:'Cassava planting techniques flat vs angled',url:'https://www.youtube.com/results?search_query=cassava+planting+technique+Nigeria+IITA'},body:`<p>Plant at start of rains. Flat (horizontal) placement gives the most roots. Spacing: 1m × 1m = 10,000 plants per hectare. Plant 5cm deep.</p>`,tips:['Flat planting = most roots','1m x 1m standard spacing'],warnings:['Never plant in full dry season'],notes:['IITA varieties double yield']},
+      {name:'Weeding & Care',short:'Care',duration:'First 3 months critical',scene:{emoji:'🌿🪚💊',title:'Crop management',steps:[{i:'🪚',t:'Weed at 4 and 8 weeks'},{i:'💊',t:'NPK at 6 weeks & 3 months'},{i:'🔍',t:'Watch for mosaic virus'},{i:'🔥',t:'Remove & burn infected plants'}]},yt:{label:'Cassava weeding fertilizer management',url:'https://www.youtube.com/results?search_query=cassava+weeding+fertilizer+Nigeria'},body:`<p>Weed aggressively for the first 3 months. Apply <strong>NPK 15-15-15</strong> at 6 weeks and again at 3 months. Remove and destroy plants showing cassava mosaic disease immediately.</p>`,tips:['Weed at 4 and 8 weeks','NPK at 6 weeks and 3 months'],warnings:['Cassava mosaic has no cure — remove infected plants fast'],notes:['Whitefly control reduces mosaic disease risk']},
+      {name:'Harvesting',short:'Harvesting',duration:'8–18 months',scene:{emoji:'🍠🌿⛏️',title:'Harvest process',steps:[{i:'⛏️',t:'Loosen soil with fork'},{i:'🌿',t:'Cut stem 30cm above ground'},{i:'🤲',t:'Pull roots carefully'},{i:'⚡',t:'Sell or process within 72hrs'}]},yt:{label:'How to harvest cassava Nigeria',url:'https://www.youtube.com/results?search_query=cassava+harvesting+Nigeria+techniques'},body:`<p>Sweet cassava: <strong>8–12 months</strong>. Bitter/industrial cassava: <strong>12–18 months</strong>. Cut stems to 30cm, loosen soil, pull roots carefully. Roots spoil within 72 hours — process immediately.</p>`,tips:['8–12 months for food','12–18 for starch/industry','Dig carefully'],warnings:['Roots spoil in 72hrs — act fast'],notes:['Leave stumps for ratoon crop']},
+      {name:'Processing & Selling',short:'Processing',duration:'Within 72hrs',scene:{emoji:'🫙⚙️💰',title:'Value-add products',steps:[{i:'🍽️',t:'Garri — most common'},{i:'🌾',t:'Cassava flour — bakeries'},{i:'🏭',t:'Starch — export market'},{i:'💰',t:'Starch = highest value'}]},yt:{label:'Cassava processing garri starch flour Nigeria',url:'https://www.youtube.com/results?search_query=cassava+processing+garri+starch+flour+Nigeria'},body:`<p>Process immediately. <strong>Garri</strong>: peel, grate, ferment 1–3 days, press, fry. <strong>Flour</strong>: dry slices and mill. <strong>Industrial starch</strong>: highest export value — strong demand from Europe and Asia.</p>`,tips:['Starch = highest export value','Garri easiest to produce'],warnings:['Fresh cassava must be processed within 72hrs'],notes:['Cassava starch export demand from Europe growing annually']}
+    ]
+  },
+  {
+    id:'maize',icon:'🌽',name:'Maize (Corn)',sci:'Zea mays',
+    category:['food','cash'],duration:'90–120 days',zone:'All zones',yield:'3–8t/ha',
+    why:'Nigeria\'s largest cereal crop and #1 raw material for animal feed, breweries, and flour milling. Demand from feed companies exceeds supply every year — making maize a reliable cash crop.',
+    tags:[{t:'Fast growing',c:'g'},{t:'Animal feed',c:'o'},{t:'Two seasons',c:'g'}],
+    stages:[
+      {name:'Land Preparation',short:'Land',duration:'1–2 weeks',scene:{emoji:'🚜🌾🧪',title:'Land setup',steps:[{i:'🚜',t:'Till to 30cm'},{i:'🧪',t:'pH 5.5–7.5'},{i:'🌿',t:'Add compost'},{i:'📏',t:'Mark rows 75cm apart'}]},yt:{label:'Maize land preparation Nigeria',url:'https://www.youtube.com/results?search_query=maize+corn+land+preparation+Nigeria'},body:`<p>Maize needs deep, fertile, well-drained loamy soil with <strong>pH 5.5–7.5</strong>. Incorporate compost during tillage. Till to 30cm. For wetter areas, form ridges.</p>`,tips:['pH 5.5–7.5','Compost improves yield','Till to 30cm'],warnings:['Waterlogging causes root rot'],notes:['Rotate with legumes to improve soil']},
+      {name:'Seed Selection',short:'Seeds',duration:'Before planting',scene:{emoji:'🌽🔬📦',title:'Certified seed',steps:[{i:'🌽',t:'SAMMAZ 15 or 16'},{i:'🔬',t:'Certified hybrid only'},{i:'📦',t:'New seed every season'},{i:'🗺️',t:'Match variety to zone'}]},yt:{label:'Best maize seed varieties Nigeria SAMMAZ',url:'https://www.youtube.com/results?search_query=maize+seed+varieties+Nigeria+SAMMAZ+IITA'},body:`<p>Use certified improved varieties — <strong>SAMMAZ 15, SAMMAZ 16</strong>, or drought-tolerant hybrids from IITA or state ADPs. These yield 5–8t/ha vs 1.5–2t/ha for local seed. Buy fresh seed every season.</p>`,tips:['SAMMAZ 15 or 16 recommended','Fresh certified seed every season'],warnings:['Local saved seed = low yield'],notes:['IITA seeds available at state ADP offices']},
+      {name:'Planting',short:'Planting',duration:'1 week',scene:{emoji:'🌧️🌽📐',title:'Planting layout',steps:[{i:'📐',t:'75cm between rows'},{i:'📏',t:'25cm within rows'},{i:'✌️',t:'2 seeds per hole'},{i:'💊',t:'NPK basal fertilizer'}]},yt:{label:'Maize planting spacing fertilizer Nigeria',url:'https://www.youtube.com/results?search_query=maize+planting+spacing+fertilizer+Nigeria'},body:`<p>Plant at rain onset (March–April south; May–June north). Spacing: <strong>75cm × 25cm</strong>, 2 seeds per hole, 5cm deep. Thin to 1 plant at 2 weeks. Apply NPK 15-15-15 as basal at planting.</p>`,tips:['75x25cm spacing','50,000 plants/ha','NPK at planting'],warnings:['Fertilizer touching seed causes burning'],notes:['In-row planting gives uniform emergence']},
+      {name:'Fertilizing & Weeding',short:'Care',duration:'First 6 weeks critical',scene:{emoji:'💊🪚🪲',title:'Crop care',steps:[{i:'💊',t:'Urea at 3–4 weeks'},{i:'🪚',t:'Weed at 2 & 6 weeks'},{i:'🪲',t:'Scout fall armyworm weekly'},{i:'💉',t:'Spray at first sign'}]},yt:{label:'Maize fertilizer fall armyworm Nigeria',url:'https://www.youtube.com/results?search_query=maize+fertilizer+fall+armyworm+Nigeria'},body:`<p>Top-dress with <strong>urea</strong> when plants are knee-high (3–4 weeks). Weed at 2 weeks and 6 weeks. Watch for <strong>fall armyworm</strong> — inspect weekly, spray with Emamectin benzoate at first sign.</p>`,tips:['Urea at 3–4 weeks','Weed at weeks 2 and 6','Inspect for fall armyworm weekly'],warnings:['Fall armyworm spreads fast — act within 3 days','Late weeding = 40% yield loss'],notes:['Fall armyworm is Nigeria\'s most dangerous crop pest']},
+      {name:'Harvesting',short:'Harvesting',duration:'90–120 days',scene:{emoji:'🌽🤲📦',title:'Harvest & drying',steps:[{i:'🌽',t:'Brown dry husks = ready'},{i:'✂️',t:'Cut or pull cobs'},{i:'☀️',t:'Sun-dry to 13.5% moisture'},{i:'💨',t:'Mechanical dryer option'}]},yt:{label:'How to harvest and dry maize Nigeria',url:'https://www.youtube.com/results?search_query=maize+harvesting+drying+Nigeria'},body:`<p>Ready at 90–120 days when husks are brown and dry. Dry grain to below <strong>13.5% moisture</strong> before storage. Yield: 3–8t/ha with improved seed.</p>`,tips:['Brown husks = ready','Dry to below 13.5% moisture'],warnings:['Wet storage above 14% causes aflatoxin'],notes:['Mechanical shellers save labour cost']},
+      {name:'Storage & Selling',short:'Selling',duration:'Post-harvest',scene:{emoji:'🏭💰🌍',title:'Market options',steps:[{i:'🐄',t:'Animal feed companies'},{i:'🏭',t:'Flour mills'},{i:'🍺',t:'Breweries'},{i:'🌽',t:'Popcorn = premium'}]},yt:{label:'Maize storage hermetic bags Nigeria',url:'https://www.youtube.com/results?search_query=maize+storage+hermetic+bags+aflatoxin+Nigeria'},body:`<p>Store in <strong>hermetic (airtight) bags</strong> to prevent weevils and aflatoxin. Sell to animal feed companies (biggest buyers), flour mills, breweries, or AFAN government purchase programs.</p>`,tips:['Hermetic bags prevent all weevils','Feed companies pay best price'],warnings:['Aflatoxin-contaminated grain is toxic and unsalable'],notes:['Feed companies pay 10–15% above open market']}
+    ]
+  },
+  {
+    id:'tomato',icon:'🍅',name:'Tomato',sci:'Solanum lycopersicum',
+    category:['food','vegetable','cash'],duration:'60–90 days',zone:'Middle Belt & North',yield:'20–40t/ha',
+    why:'Nigeria\'s most commercially important vegetable. Every home and restaurant buys fresh tomatoes daily. Nigeria imports ₦80B of tomato paste annually — a huge opportunity for local farmers who can grow and process at scale.',
+    tags:[{t:'High demand',c:'g'},{t:'Dry season crop',c:'o'},{t:'Value-add',c:'r'}],
+    stages:[
+      {name:'Land & Soil Prep',short:'Land',duration:'1–2 weeks',scene:{emoji:'🏗️🛏️🌿',title:'Raised bed preparation',steps:[{i:'🏗️',t:'Build raised beds'},{i:'🧪',t:'pH 6.0–7.0'},{i:'🌿',t:'Add 20t/ha compost'},{i:'🔄',t:'Rotate crops'}]},yt:{label:'Tomato raised bed preparation Nigeria',url:'https://www.youtube.com/results?search_query=tomato+raised+bed+preparation+Nigeria'},body:`<p>Prepare raised beds 1–1.2m wide for drainage. pH 6.0–7.0. Incorporate well-rotted compost at 20–30 tonnes/ha. Avoid fields with bacterial wilt history.</p>`,tips:['Raised beds reduce disease','pH 6.0–7.0','Avoid bacterial wilt history fields'],warnings:['Bacterial wilt has no cure'],notes:['Rotate with non-solanaceous crops']},
+      {name:'Nursery',short:'Nursery',duration:'4–5 weeks',scene:{emoji:'🌱🪴☀️',title:'Seedling nursery',steps:[{i:'🌱',t:'Sow in trays'},{i:'💧',t:'Water daily'},{i:'🌤️',t:'Partial shade 2 weeks'},{i:'💪',t:'Harden 1 week before transplant'}]},yt:{label:'Tomato nursery seedling production Nigeria',url:'https://www.youtube.com/results?search_query=tomato+nursery+seedling+production+Nigeria'},body:`<p>Sow seeds in nursery trays. Germination: 7–10 days. Transplant at 4–5 weeks (15–20cm, 4–6 true leaves). Harden seedlings 7 days before transplanting by reducing water and shade.</p>`,tips:['Transplant at 4–5 weeks','Harden 1 week before transplant'],warnings:['Overwatering nursery causes damping-off'],notes:['Nursery trays give more uniform plants']},
+      {name:'Transplanting',short:'Planting',duration:'1 week',scene:{emoji:'🌅🌱📐',title:'Transplanting day',steps:[{i:'🌅',t:'Transplant in evenings'},{i:'📐',t:'60×45cm spacing'},{i:'🏵️',t:'Mulch around plants'},{i:'🎋',t:'Stake at planting'}]},yt:{label:'Tomato transplanting spacing staking Nigeria',url:'https://www.youtube.com/results?search_query=tomato+transplanting+spacing+staking+Nigeria'},body:`<p>Transplant in dry season with irrigation for best results. Space 60cm rows × 45cm within rows. Transplant evenings. Water immediately. Mulch. Install bamboo stakes at planting.</p>`,tips:['Dry season = best quality','60x45cm spacing','Stake at planting'],warnings:['Wet season brings high disease pressure'],notes:['Drip irrigation ideal for tomato']},
+      {name:'Irrigation, Fertilizing & Pests',short:'Care',duration:'60–70 days',scene:{emoji:'💧💊🍄',title:'Crop management',steps:[{i:'💧',t:'Consistent irrigation'},{i:'🧪',t:'Calcium nitrate at flowering'},{i:'🍄',t:'Copper fungicide weekly'},{i:'🦟',t:'Control whitefly & aphids'}]},yt:{label:'Tomato irrigation fertilizer disease Nigeria',url:'https://www.youtube.com/results?search_query=tomato+irrigation+fertilizer+disease+management+Nigeria'},body:`<p><strong>Consistent irrigation</strong> prevents blossom-end rot. Calcium nitrate at flowering. Copper fungicide every 7–10 days. Control whitefly, aphids, fruit borers with systemic insecticide.</p>`,tips:['Consistent irrigation is critical','Calcium nitrate at flowering','Copper fungicide every 7–10 days'],warnings:['Irregular water = blossom-end rot','Blight spreads in wet weather'],notes:['Drip irrigation reduces disease dramatically']},
+      {name:'Harvesting',short:'Harvesting',duration:'60–90 days',scene:{emoji:'🍅🤲📦',title:'Harvesting tomatoes',steps:[{i:'🍅',t:'Pink stage for transport'},{i:'🔴',t:'Full red for local sale'},{i:'📅',t:'Pick every 2–3 days'},{i:'🤲',t:'Handle gently — no bruising'}]},yt:{label:'Tomato harvesting grading packaging Nigeria',url:'https://www.youtube.com/results?search_query=tomato+harvesting+grading+packaging+Nigeria'},body:`<p>Pick at <strong>pink/breaker stage</strong> for distant markets; full red for local sale. Harvest every 2–3 days. Handle carefully. Yield: 20–40t/ha.</p>`,tips:['Pink stage for transport','Pick every 2–3 days'],warnings:['Bruising causes rot within 1–2 days'],notes:['One healthy plant can produce 8–12kg']},
+      {name:'Selling & Processing',short:'Selling',duration:'Post-harvest',scene:{emoji:'🫙🏪✈️',title:'Market options',steps:[{i:'🫙',t:'Tomato paste = 6 month shelf life'},{i:'❄️',t:'Cold store 8–10°C'},{i:'🏪',t:'Sell to restaurants & hotels'},{i:'✈️',t:'Export to neighbouring countries'}]},yt:{label:'Tomato processing paste production Nigeria',url:'https://www.youtube.com/results?search_query=tomato+paste+processing+Nigeria+small+scale'},body:`<p>Sort and grade. Sell fresh to markets, restaurants, hotels, and processors. Process surplus into <strong>tomato paste</strong> for 6-month shelf life. Cold store at 8–10°C for 2–3 weeks. Branded paste sells to supermarkets at premium price.</p>`,tips:['Tomato paste = 6 month shelf life','Cold store at 8–10°C'],warnings:['No cold storage = major post-harvest loss'],notes:['Nigeria\'s tomato paste import gap = huge opportunity']}
+    ]
+  }
+];
+
+/* ═══════════════════════════════════
+   ANIMAL HUSBANDRY DATA
+═══════════════════════════════════ */
+const ANIMALS = [
+  {
+    id:'poultry',icon:'🐔',name:'Poultry Farming',sci:'Broilers · Layers · Cockerels',type:'animal',
+    category:['animal'],duration:'6–8 weeks (broilers) / 72+ weeks (layers)',zone:'All zones countrywide',yield:'2–2.5kg/bird (broiler) | 280+ eggs/yr (layers)',
+    why:'Poultry farming is Nigeria\'s most popular livestock enterprise. A standard 500-bird broiler unit can generate ₦500,000–₦900,000 profit per 6-week cycle. Egg production provides steady weekly income. Low startup cost, fast returns, and high demand nationwide.',
+    tags:[{t:'Fast ROI',c:'g'},{t:'High demand',c:'g'},{t:'All zones',c:'o'},{t:'Broilers & layers',c:'b'}],
+    stages:[
+      {name:'Housing & Pen Setup',short:'Housing',duration:'2–3 weeks before birds arrive',
+       scene:{emoji:'🏠🔆🌬️',title:'Poultry house setup',steps:[{i:'🏠',t:'Deep litter or cage system'},{i:'🌬️',t:'Cross-ventilation required'},{i:'🔆',t:'Lighting 23 hrs for broilers'},{i:'🌡️',t:'Temperature 32–35°C for day-olds'}]},
+       yt:{label:'Poultry house construction Nigeria broilers layers',url:'https://www.youtube.com/results?search_query=poultry+house+construction+Nigeria+broiler'},
+       body:`<p>Build a well-ventilated house on an elevated site away from residential areas. For broilers: <strong>deep litter system</strong> with wood shavings 7–10cm deep. For layers: battery cage or deep litter. Space: 30×30cm per broiler bird; 40×40cm per layer.</p><p>Install drinkers, feeders, heat sources (bulbs/gas brooders for day-olds). The house must maintain <strong>32–35°C</strong> for day-old chicks, reducing 2–3°C weekly.</p>`,
+       tips:['Deep litter: wood shavings 7–10cm','30x30cm per broiler bird','Good cross-ventilation is critical','Disinfect house 2 weeks before birds arrive'],
+       warnings:['Poor ventilation causes respiratory disease','Low temperature kills day-old chicks'],
+       notes:['Corrugated iron roof with open sides is most common in Nigeria']},
+      {name:'Sourcing Day-Old Chicks',short:'Chicks',duration:'1 day — sourcing',
+       scene:{emoji:'🐣📦🏥',title:'Getting quality chicks',steps:[{i:'🐣',t:'Source from reputable hatchery'},{i:'🏥',t:'Vaccinated at hatchery'},{i:'📦',t:'Collect within 24hrs of hatch'},{i:'🌡️',t:'Transport in ventilated box'}]},
+       yt:{label:'How to source day old chicks Nigeria poultry',url:'https://www.youtube.com/results?search_query=day+old+chicks+Nigeria+hatchery+source'},
+       body:`<p>Source day-old chicks only from <strong>reputable hatcheries</strong> — Chi Farms, Zartech, Obasanjo Farms, or state government hatcheries. Ensure chicks are vaccinated against Marek's disease at the hatchery. Collect within 24 hours of hatching. Transport in well-ventilated cardboard boxes.</p><p>For broilers: choose Marshall or Arbor Acres strain. For layers: Isa Brown, Lohmann Brown, or Bovan Goldline. Do not mix ages in one house.</p>`,
+       tips:['Chi Farms, Zartech or Obasanjo Farms recommended','Vaccinated chicks from hatchery','Collect within 24 hours of hatch'],
+       warnings:['Cheap uncertified chicks often die in the first week','Never mix ages in one house'],
+       notes:['Ask for health certificate from hatchery']},
+      {name:'Feeding Programme',short:'Feeding',duration:'Full production cycle',
+       scene:{emoji:'🌽🐔💊',title:'Feed management',steps:[{i:'🌽',t:'Starter: 0–4 weeks'},{i:'🌾',t:'Grower: 4–6 weeks'},{i:'🥚',t:'Layer feed from week 18'},{i:'💊',t:'Vitamins in water daily'}]},
+       yt:{label:'Poultry feeding programme Nigeria starter grower finisher',url:'https://www.youtube.com/results?search_query=poultry+feeding+programme+Nigeria+starter+grower'},
+       body:`<p>Feed is 70% of total production cost. Use a 3-phase programme:</p><p><strong>Starter feed (0–4 weeks):</strong> 22–24% crude protein. Feed ad libitum (always available). <strong>Grower feed (4–6 weeks):</strong> 18–20% crude protein. <strong>Finisher (last 1–2 weeks for broilers):</strong> 18% CP, higher energy. For layers: introduce layer mash from week 18–20 when production begins.</p><p>Ensure fresh clean water is <strong>always</strong> available — a bird without water for 12 hours can lose 3 days of growth.</p>`,
+       tips:['Feed always available (ad libitum)','Fresh clean water always available','Vitamins in water 3 days/week','Use reputable feed brands — Vital, Top Feeds, CHI'],
+       warnings:['Low water access for 12hrs = 3 days lost growth','Never buy wet or mouldy feed'],
+       notes:['Feed accounts for 65–70% of total cost']},
+      {name:'Vaccination & Health',short:'Health',duration:'Scheduled throughout cycle',
+       scene:{emoji:'💉🐔🔬',title:'Vaccination schedule',steps:[{i:'💉',t:'Day 1: Marek\'s at hatchery'},{i:'👁️',t:'Day 7: Newcastle via eye drop'},{i:'💧',t:'Day 14: Gumboro in water'},{i:'📅',t:'Boosters as scheduled'}]},
+       yt:{label:'Poultry vaccination schedule Nigeria Newcastle Gumboro',url:'https://www.youtube.com/results?search_query=poultry+vaccination+schedule+Nigeria+Newcastle+Gumboro'},
+       body:`<p>Vaccination is essential. Key schedule for broilers:</p><p>Day 1: Marek's (at hatchery). Day 7: Newcastle Disease (ND) vaccine — eye drop or intranasal. Day 14: Gumboro (IBD) — in drinking water. Day 21: ND booster. Day 28: Gumboro booster.</p><p>For layers, additional vaccines are needed at weeks 6, 10, and 16. Biosecurity is as important as vaccination — disinfect footbath at entrance, restrict visitors, wear clean clothes in the house.</p>`,
+       tips:['Follow vaccination schedule strictly','Biosecurity: footbath at house entrance','Restrict visitors to poultry house','Remove dead birds immediately and bury deep'],
+       warnings:['Missing Newcastle vaccine = flock wipeout','Never store vaccines incorrectly — they die outside cold chain'],
+       notes:['Buy vaccines from licensed vet or agro-vet shops — keep cold']},
+      {name:'Harvesting (Slaughter / Egg Collection)',short:'Harvest',duration:'Week 6–8 (broilers) / daily (layers)',
+       scene:{emoji:'🔪🥚📦',title:'Harvest & collection',steps:[{i:'⏳',t:'Broilers: week 6–8'},{i:'🔪',t:'Slaughter, dress, package'},{i:'🥚',t:'Layers: daily collection'},{i:'📦',t:'Grade eggs by size'}]},
+       yt:{label:'Broiler slaughter processing Nigeria poultry',url:'https://www.youtube.com/results?search_query=broiler+slaughter+processing+Nigeria'},
+       body:`<p><strong>Broilers:</strong> Ready for sale at 6–8 weeks at 2–2.5kg live weight. Withdraw feed 6 hours before slaughter (not water). Slaughter, scald in hot water (60°C), pluck, eviscerate, and chill or sell immediately. Sell live or dressed (whole, cut-up, or packaged).</p><p><strong>Layers:</strong> Begin laying at 18–20 weeks. Collect eggs twice daily (morning and afternoon). Grade by size — large, medium, small. Pack in crates of 30. Peak production is 280–300 eggs per bird per year.</p>`,
+       tips:['Broilers ready at 2–2.5kg live weight at 6–8 weeks','Collect eggs twice daily for layers','Grade eggs by size before selling'],
+       warnings:['Never sell sick or dead birds','Undressed broilers spoil within hours without refrigeration'],
+       notes:['Dressed (processed) chicken sells 30–50% more than live bird']},
+      {name:'Selling & Record Keeping',short:'Selling',duration:'Post-harvest',
+       scene:{emoji:'💰📋🏪',title:'Selling options',steps:[{i:'🏪',t:'Sell live at farm gate'},{i:'🏨',t:'Supply hotels & restaurants'},{i:'🥚',t:'Egg supply to supermarkets'},{i:'📋',t:'Keep records every cycle'}]},
+       yt:{label:'Poultry farming profit record keeping Nigeria',url:'https://www.youtube.com/results?search_query=poultry+farming+profit+records+Nigeria'},
+       body:`<p>Sell live broilers at farm gate, to hotels, restaurants, supermarkets, or market traders. Dressed chicken commands a 30–50% premium. For layers: supply eggs weekly to supermarkets, schools, bakeries, and restaurants on contract.</p><p>Keep detailed records every cycle: feed consumed, mortality, vaccination dates, income, and expenses. This lets you calculate profit per bird and improve each cycle.</p>`,
+       tips:['Restaurants and hotels pay premium prices','Dressed chicken = 30–50% more than live bird','Keep records: feed cost, mortality, income per cycle'],
+       warnings:['Never sell sick birds — serious legal and health risk'],
+       notes:['500-bird broiler unit can earn ₦500,000–₦900,000 per 6-week cycle']}
+    ]
+  },
+  {
+    id:'catfish',icon:'🐟',name:'Catfish Farming',sci:'Clarias gariepinus',type:'animal',
+    category:['animal'],duration:'5–6 months',zone:'All zones (needs water)',yield:'1–1.5kg/fish | 4–6t/ha pond/cycle',
+    why:'Catfish is the most consumed fish in Nigeria. Farm-gate price is ₦2,500–₦4,000/kg. A standard 3×4m concrete pond with 500 fish can generate ₦600,000–₦900,000 per 5-month cycle. One of the most profitable small-scale livestock businesses available.',
+    tags:[{t:'High profit',c:'g'},{t:'Fast ROI',c:'g'},{t:'All zones',c:'o'},{t:'#1 consumed fish',c:'b'}],
+    stages:[
+      {name:'Pond Construction',short:'Pond',duration:'2–4 weeks',
+       scene:{emoji:'🏊🪣🔧',title:'Pond types',steps:[{i:'🏊',t:'Concrete pond (most common)'},{i:'🛢️',t:'Tarpaulin pond (cheapest)'},{i:'🌍',t:'Earthen pond (largest scale)'},{i:'📏',t:'3×4m minimum size'}]},
+       yt:{label:'Catfish pond construction Nigeria concrete tarpaulin',url:'https://www.youtube.com/results?search_query=catfish+pond+construction+Nigeria+concrete+tarpaulin'},
+       body:`<p>Choose your pond type: <strong>concrete pond</strong> (durable, 20+ year lifespan), <strong>tarpaulin pond</strong> (cheapest startup, 2–3 years), or <strong>earthen pond</strong> (for large-scale). Standard size: 3m × 4m × 1.2m deep.</p><p>Cure concrete ponds with water for 2–3 weeks before stocking — uncured concrete is toxic to fish. Install inflow and outflow pipes. Place pond in shade or build shade cover — direct sun causes algal bloom.</p>`,
+       tips:['Cure concrete ponds 2–3 weeks before stocking','Install inflow AND outflow pipes','Shade over pond prevents algal bloom','3x4m minimum for 500 fish'],
+       warnings:['Uncured concrete kills fish','No outflow pipe = inability to manage water'],
+       notes:['Tarpaulin pond costs ₦15,000–₦40,000 — lowest barrier to entry']},
+      {name:'Water Management',short:'Water',duration:'Ongoing throughout cycle',
+       scene:{emoji:'💧🔬🌊',title:'Water quality',steps:[{i:'💧',t:'Change 20–30% water weekly'},{i:'🔬',t:'Test pH weekly: target 6.5–8.5'},{i:'🌊',t:'Aerate when fish gasp at surface'},{i:'🏥',t:'Green water = algal bloom'}]},
+       yt:{label:'Catfish water management water quality Nigeria',url:'https://www.youtube.com/results?search_query=catfish+water+management+quality+Nigeria'},
+       body:`<p>Water quality determines survival and growth rate. Change <strong>20–30% of pond water weekly</strong>. Test pH weekly — target 6.5 to 8.5. If fish are gasping at the surface (a sign of low dissolved oxygen), do an emergency water change immediately.</p><p>Avoid introducing water from contaminated rivers. Borehole water, treated tap water, or clean borehole is best. Remove uneaten feed after 30 minutes to prevent decay and ammonia buildup.</p>`,
+       tips:['Change 20–30% water every week','Remove uneaten feed within 30 minutes','Borehole water is best','Fish gasping at surface = emergency water change'],
+       warnings:['Ammonia buildup from uneaten feed kills fish','Overcrowding depletes oxygen rapidly'],
+       notes:['pH test kits available at vet/agro shops for ₦2,000–₦5,000']},
+      {name:'Stocking Fingerlings',short:'Stocking',duration:'1 day — stocking day',
+       scene:{emoji:'🐟📦🌊',title:'Stocking fingerlings',steps:[{i:'📦',t:'Source from reputable hatchery'},{i:'📏',t:'5–8cm fingerlings'},{i:'🌡️',t:'Acclimatise before releasing'},{i:'🔢',t:'500 per 3x4m pond'}]},
+       yt:{label:'How to stock catfish fingerlings Nigeria pond',url:'https://www.youtube.com/results?search_query=catfish+fingerlings+stocking+Nigeria+pond'},
+       body:`<p>Source healthy fingerlings (5–8cm) from a reputable hatchery. Stocking density: <strong>400–600 fish per 3×4m pond</strong>. Before releasing fish: float the transport bag in the pond for 20–30 minutes to equalise temperature, then slowly release.</p><p>Sort fish by size every 4 weeks — larger fish bully and eat smaller ones, causing uneven growth and increased mortality.</p>`,
+       tips:['Float bag in pond 20–30 min before releasing','400–600 fish per 3x4m pond','Sort by size every 4 weeks'],
+       warnings:['Larger fish eat smaller ones if not sorted','Overcrowding = slow growth and high mortality'],
+       notes:['Fingerlings from reputable hatchery cost ₦80–₦150 each']},
+      {name:'Feeding Programme',short:'Feeding',duration:'Full 5–6 month cycle',
+       scene:{emoji:'🐟🌽💊',title:'Feeding regime',steps:[{i:'🌅',t:'Feed twice daily: morning & evening'},{i:'🌽',t:'Floating pellets recommended'},{i:'📊',t:'Feed 3–5% of body weight daily'},{i:'💊',t:'Vitamins every 2 weeks'}]},
+       yt:{label:'Catfish feeding programme floating pellets Nigeria',url:'https://www.youtube.com/results?search_query=catfish+feeding+programme+floating+pellets+Nigeria'},
+       body:`<p>Feed twice daily — morning and evening. Use <strong>floating pellets</strong> — you can monitor consumption and remove uneaten feed before it pollutes water. Feed <strong>3–5% of total fish body weight</strong> daily.</p><p>Phase feeding:</p><p>Weeks 1–4: 2mm pellets, 45% protein. Weeks 5–10: 3mm pellets, 35–40% protein. Weeks 11–20: 4–5mm pellets, 32–35% protein.</p><p>Feed accounts for about 60% of your total production cost.</p>`,
+       tips:['Floating pellets let you control feeding','Feed 3–5% of total fish weight daily','Remove uneaten feed after 30 minutes','Increase feed quantity as fish grow'],
+       warnings:['Overfeeding pollutes water and kills fish','Never feed mouldy or wet pellets'],
+       notes:['Top Feed, Aqualis, Coppens are reputable catfish feed brands']},
+      {name:'Harvesting',short:'Harvesting',duration:'At 5–6 months (1–1.5kg)',
+       scene:{emoji:'🎣🐟🔪',title:'Harvest process',steps:[{i:'💧',t:'Drain 80% of pond water'},{i:'🎣',t:'Net remaining fish'},{i:'🧊',t:'Kill in iced water'},{i:'📦',t:'Pack in coolers for market'}]},
+       yt:{label:'Catfish harvesting processing packaging Nigeria',url:'https://www.youtube.com/results?search_query=catfish+harvesting+processing+Nigeria'},
+       body:`<p>Fish are ready at <strong>1–1.5kg live weight</strong>, usually at 5–6 months. Drain 80% of pond water slowly. Net the remaining fish. Kill humanely in iced water or by stunning. Sort by size. Sell live or dead.</p><p>Partial harvest is possible — remove the largest fish while leaving smaller ones to grow for 4–6 more weeks, maximising total output from one stocking.</p>`,
+       tips:['Partial harvest = remove large fish, grow smaller ones longer','Sell live fish at farm gate for highest price','Iced fish stay fresh for 24–48 hours'],
+       warnings:['Dead fish spoil within hours without ice','Never sell sick fish'],
+       notes:['Live catfish sells ₦2,500–₦4,000/kg — dead fish 20–30% less']},
+      {name:'Selling & Value Chain',short:'Selling',duration:'Post-harvest',
+       scene:{emoji:'💰🏪🍽️',title:'Selling catfish',steps:[{i:'🏪',t:'Farm gate (highest price)'},{i:'🍽️',t:'Restaurants & suya spots'},{i:'🛒',t:'Market traders'},{i:'🔥',t:'Smoked catfish = long shelf life'}]},
+       yt:{label:'Catfish marketing selling smoked catfish Nigeria',url:'https://www.youtube.com/results?search_query=catfish+marketing+selling+smoked+Nigeria'},
+       body:`<p>Sell live fish at farm gate for the highest price. Supply <strong>restaurants, hotels, suya spots</strong>, and market fish traders. Smoked catfish extends shelf life from 24 hours to 3 months and commands a premium price.</p><p>A well-run 500-fish pond per 5-month cycle can generate gross revenue of ₦900,000–₦1.5M depending on market price. Net profit after feed, fingerlings, and utilities: ₦400,000–₦700,000.</p>`,
+       tips:['Live fish at farm gate = highest price','Smoked catfish has 3-month shelf life','Supply restaurants and hotels directly'],
+       warnings:['Never sell sick or dead fish without disclosure'],
+       notes:['500-fish pond can net ₦400,000–₦700,000 per cycle']}
+    ]
+  },
+  {
+    id:'goat',icon:'🐐',name:'Goat Farming',sci:'Capra aegagrus hircus',type:'animal',
+    category:['animal'],duration:'7–8 months to market weight',zone:'All zones — especially North & Middle Belt',yield:'25–40kg/goat at market',
+    why:'Goats are the most resilient livestock in Nigeria. They thrive in almost every agro-ecological zone, require minimal housing, and command high prices. Red Sokoto goat meat is in demand nationally and for export to the Middle East. A small herd of 20 goats can generate ₦500,000–₦1M annually.',
+    tags:[{t:'Low maintenance',c:'g'},{t:'Export demand',c:'r'},{t:'All zones',c:'o'},{t:'Meat & milk',c:'b'}],
+    stages:[
+      {name:'Housing & Pen Setup',short:'Housing',duration:'1–2 weeks',scene:{emoji:'🏠🐐🌬️',title:'Goat pen setup',steps:[{i:'🏠',t:'Raised slatted floor pen'},{i:'📐',t:'1.5m² per goat'},{i:'🌬️',t:'Good ventilation'},{i:'🔒',t:'Predator-proof fencing'}]},yt:{label:'Goat pen construction Nigeria',url:'https://www.youtube.com/results?search_query=goat+pen+construction+Nigeria'},body:`<p>Build on elevated, well-drained ground. Raised slatted floor (30–60cm above ground) allows droppings to fall, keeping goats clean and dry. Provide <strong>1.5m² per adult goat</strong>. Good ventilation prevents respiratory disease. Use predator-proof wire mesh fencing.</p>`,tips:['Raised slatted floor stays dry and clean','1.5m² per adult goat','Predator-proof fencing','Shade and wind protection'],warnings:['Damp, confined housing = pneumonia and foot rot'],notes:['Bamboo slatted floor is cheap and effective']},
+      {name:'Breed Selection',short:'Breeds',duration:'Pre-purchase research',scene:{emoji:'🐐🔍📋',title:'Nigerian goat breeds',steps:[{i:'🐐',t:'Red Sokoto — best for meat'},{i:'🥛',t:'Sahel — best for milk'},{i:'🌿',t:'West African Dwarf — forest zones'},{i:'💰',t:'WAD — highest disease resistance'}]},yt:{label:'Nigerian goat breeds selection Red Sokoto WAD',url:'https://www.youtube.com/results?search_query=Nigerian+goat+breeds+Red+Sokoto+WAD+selection'},body:`<p>Choose breed based on your zone: <strong>Red Sokoto (Maradi)</strong> — best meat quality and value, excellent for the North and export. <strong>West African Dwarf (WAD)</strong> — best for southern forest zones, highly disease-resistant. <strong>Sahel goat</strong> — best milk producer for the far north.</p><p>Start with a ratio of 1 buck per 15–20 does. Source from healthy farms with records of parasite treatment and vaccination.</p>`,tips:['Red Sokoto for meat production in North','WAD for southern forest zones','1 buck per 15–20 does','Source from healthy farms with records'],warnings:['Buying goats from unknown market without health history risks disease introduction'],notes:['Red Sokoto goat meat exported to Middle East at premium price']},
+      {name:'Feeding & Nutrition',short:'Feeding',duration:'Daily — throughout cycle',scene:{emoji:'🌿🐐💊',title:'Goat nutrition',steps:[{i:'🌿',t:'Browse & pasture (free range)'},{i:'🌾',t:'Supplementary feed'},{i:'🧂',t:'Mineral lick (salt block)'},{i:'💧',t:'Clean water always available'}]},yt:{label:'Goat feeding nutrition mineral lick Nigeria',url:'https://www.youtube.com/results?search_query=goat+feeding+nutrition+Nigeria+mineral+lick'},body:`<p>Goats are browsers — they prefer leaves, shrubs, and varied foliage over grass. Allow daily grazing/browsing for at least 6–8 hours. Supplement with cut-and-carry forage (Leucaena, Gliricidia, sweet potato vine), crop residues, and concentrates.</p><p>Always provide a <strong>mineral/salt lick block</strong> — mineral deficiency is the most overlooked cause of low productivity. Clean fresh water must be available at all times.</p>`,tips:['Allow 6–8 hours browsing/grazing daily','Mineral lick block always available','Supplement with Leucaena or Gliricidia','Clean water always'],warnings:['Mineral deficiency causes low reproduction rates and poor weight gain'],notes:['Leucaena leaves are excellent protein supplement for goats']},
+      {name:'Health Management',short:'Health',duration:'Scheduled + ongoing monitoring',scene:{emoji:'💉🐐🔬',title:'Goat health plan',steps:[{i:'💉',t:'PPR vaccine every year'},{i:'🦠',t:'Deworm every 3 months'},{i:'🔍',t:'Check for lice and mange monthly'},{i:'🩺',t:'Isolate sick animals immediately'}]},yt:{label:'Goat vaccination deworming Nigeria health management',url:'https://www.youtube.com/results?search_query=goat+vaccination+deworming+Nigeria+PPR'},body:`<p>Annual vaccination: <strong>PPR (Peste des Petits Ruminants)</strong> — the most deadly goat disease in Nigeria. Deworm every 3 months (rotate dewormers to prevent resistance). Check monthly for external parasites — lice, mites, mange. Trim hooves every 3–4 months to prevent foot rot.</p><p>Isolate any sick animal immediately. Never introduce new animals to the main herd without a 2-week quarantine period.</p>`,tips:['PPR vaccine every year without fail','Deworm every 3 months','2-week quarantine for all new animals','Hoof trimming every 3–4 months'],warnings:['PPR can kill an entire herd within weeks','Never skip deworming — worms reduce productivity drastically'],notes:['PPR vaccine available from state veterinary offices']},
+      {name:'Breeding & Kidding',short:'Breeding',duration:'5 months gestation',scene:{emoji:'💕🐐🐣',title:'Breeding cycle',steps:[{i:'💕',t:'Does cycle every 21 days'},{i:'⏳',t:'5 months gestation'},{i:'🐣',t:'1–3 kids per birth'},{i:'🥛',t:'Kid suckles for 6–8 weeks'}]},yt:{label:'Goat breeding kidding management Nigeria',url:'https://www.youtube.com/results?search_query=goat+breeding+kidding+Nigeria'},body:`<p>Does (female goats) come into heat every 21 days. Gestation is <strong>5 months (150 days)</strong>. Does typically produce 1–3 kids per birth. Does can kid twice per year under good management, doubling your herd fast.</p><p>Before kidding: isolate the doe in a clean pen. After kidding: ensure kid drinks colostrum (first milk) within 2 hours — it is critical for immunity. Weigh kids at birth and weekly to track growth.</p>`,tips:['Does can kid twice per year','Ensure colostrum intake within 2 hours of birth','Isolate doe for kidding in clean pen','Weigh kids weekly to track health'],warnings:['Kids that miss colostrum have high mortality','Does without supplementary feed produce fewer and weaker kids'],notes:['WAD goats can produce 2 kiddings per year reliably']},
+      {name:'Marketing & Selling',short:'Selling',duration:'At 7–8 months or 25–40kg',scene:{emoji:'💰🐐🕌',title:'Selling options',steps:[{i:'🕌',t:'Sallah & Christmas premium'},{i:'🏪',t:'Sell to abattoirs & butchers'},{i:'✈️',t:'Live export to Middle East'},{i:'🏥',t:'Sell breeding stock at premium'}]},yt:{label:'Goat marketing selling live export Nigeria',url:'https://www.youtube.com/results?search_query=goat+selling+marketing+live+export+Nigeria'},body:`<p>Sell at market weight of <strong>25–40kg live weight</strong> (7–8 months for Red Sokoto). Prices peak at <strong>Eid al-Adha (Sallah) and Christmas</strong> — plan your breeding cycle so animals are ready for these peak periods. Sell to abattoirs, butchers, hotels, or directly to consumers. Live goat export to the Middle East commands premium prices. Breeding stock (especially well-documented Red Sokoto) also sells at premium.</p>`,tips:['Time sales for Sallah or Christmas peak','Red Sokoto export to Middle East at premium','Sell breeding stock at premium price','Record pedigree of your herd'],
+       warnings:['Selling malnourished goats damages your reputation'],notes:['A healthy Red Sokoto at Sallah can sell for ₦80,000–₦200,000']}
+    ]
+  },
+  {
+    id:'cattle',icon:'🐄',name:'Cattle Farming',sci:'Bos indicus / Bos taurus',type:'animal',
+    category:['animal'],duration:'18–24 months to market weight',zone:'Northern Nigeria & Middle Belt',yield:'200–350kg carcass weight',
+    why:'Nigeria is a major cattle-producing country. Beef cattle, dairy production, and hide/skin are all major income sources. A single improved Bunaji or Friesian crossbred bull calf can sell for ₦350,000–₦800,000 at market weight. Dairy farming provides daily stable income of ₦5,000–₦15,000 per cow.',
+    tags:[{t:'High value',c:'g'},{t:'Dairy income',c:'o'},{t:'Export hides',c:'r'},{t:'North Nigeria',c:'b'}],
+    stages:[
+      {name:'Housing & Infrastructure',short:'Housing',duration:'4–8 weeks',scene:{emoji:'🏗️🐄🌾',title:'Cattle housing',steps:[{i:'🏗️',t:'Open barn: 5m² per animal'},{i:'🌿',t:'Shade trees or roof'},{i:'💧',t:'Water trough always full'},{i:'🏥',t:'Separate sick bay'}]},yt:{label:'Cattle barn construction housing Nigeria',url:'https://www.youtube.com/results?search_query=cattle+barn+construction+housing+Nigeria'},body:`<p>Provide a well-ventilated open barn with a roof. Allocate <strong>5m² per adult animal</strong>. Construct a concrete feeding trough and permanent water trough. A paddock (fenced pasture) of 0.5–1 acre per animal is ideal for grazing. Build a separate sick bay for isolating ill animals.</p>`,tips:['5m² per adult animal','Permanent water trough always full','Separate sick bay is essential','Shade trees reduce heat stress'],warnings:['Overcrowding spreads disease rapidly'],notes:['Borehole water on site is a major advantage']},
+      {name:'Breed Selection',short:'Breeds',duration:'Pre-purchase',scene:{emoji:'🐄🔍📋',title:'Cattle breeds Nigeria',steps:[{i:'🥩',t:'Bunaji/Fulani — beef, local'},{i:'🥛',t:'Friesian crossbred — dairy'},{i:'💪',t:'Sokoto Gudali — dual purpose'},{i:'🌡️',t:'Indigenous breeds are heat-tolerant'}]},yt:{label:'Cattle breeds Nigeria Bunaji Friesian crossbred',url:'https://www.youtube.com/results?search_query=cattle+breeds+Nigeria+Bunaji+Friesian+beef+dairy'},body:`<p>For beef: <strong>Bunaji (White Fulani)</strong> or Sokoto Gudali — hardy, heat-tolerant, well-suited to Northern Nigeria. For dairy: <strong>Friesian × Bunaji crossbred</strong> — produces 10–20 litres/day vs 1–3 litres for local breeds. For dual purpose: Sokoto Gudali crosses.</p><p>Buy from reputable farms with vaccination and deworming records. Never buy from open markets without knowing health history.</p>`,tips:['Bunaji for beef in North','Friesian crossbred for dairy','Source with vaccination records'],warnings:['Market cattle without health history risk introducing disease'],notes:['Friesian crossbreds produce 10× more milk than local breeds']},
+      {name:'Feeding & Pasture',short:'Feeding',duration:'Daily throughout cycle',scene:{emoji:'🌾🐄💊',title:'Cattle nutrition',steps:[{i:'🌾',t:'Pasture: Brachiaria or Stylosanthes'},{i:'🌿',t:'Crop residues: cowpea vines, sorghum'},{i:'💊',t:'Mineral lick block always available'},{i:'🧪',t:'Concentrate supplement for dairy'}]},yt:{label:'Cattle feeding pasture management Nigeria',url:'https://www.youtube.com/results?search_query=cattle+feeding+pasture+management+Nigeria'},body:`<p>Improved pastures with <strong>Brachiaria, Stylosanthes, or Panicum</strong> grasses significantly increase beef weight gain. Supplement with crop residues (cowpea haulms, sorghum stover, cottonseed cake). Always provide a mineral salt lick block.</p><p>For dairy cattle: feed concentrate (2–3kg/day of groundnut cake + maize bran mixture) to support milk production. A Friesian crossbred on good feed can produce 10–18 litres per day.</p>`,tips:['Improved pasture doubles beef weight gain','Mineral lick block always available','Concentrate for dairy cows','Cowpea haulms are excellent protein supplement'],warnings:['No mineral block = low fertility and poor growth in all cattle'],notes:['1 acre of Brachiaria supports 2 adult cattle year-round']},
+      {name:'Health Management',short:'Health',duration:'Scheduled + ongoing',scene:{emoji:'💉🐄🔬',title:'Cattle health plan',steps:[{i:'💉',t:'FMD vaccine every 6 months'},{i:'🦠',t:'Deworm every 3 months'},{i:'🪲',t:'Dip/spray for ticks monthly'},{i:'🩺',t:'Isolate sick animals immediately'}]},yt:{label:'Cattle vaccination FMD tick control Nigeria',url:'https://www.youtube.com/results?search_query=cattle+vaccination+FMD+tick+control+Nigeria'},body:`<p>Critical vaccines: <strong>Foot-and-Mouth Disease (FMD)</strong> — every 6 months. <strong>CBPP (Contagious Bovine Pleuropneumonia)</strong> — annually. <strong>Anthrax</strong> — annually in enzootic areas. Deworm every 3 months. Control ticks by monthly dipping or spraying — ticks transmit Trypanosomiasis (nagana) which kills cattle rapidly.</p>`,tips:['FMD vaccine every 6 months','Deworm every 3 months','Monthly tick dipping or spraying','2-week quarantine for new animals'],warnings:['Trypanosomiasis from ticks can kill within weeks','FMD outbreak can wipe out an entire herd'],notes:['State veterinary services provide most vaccines free or subsidised']},
+      {name:'Breeding',short:'Breeding',duration:'9 months gestation',scene:{emoji:'💕🐄🐣',title:'Cattle reproduction',steps:[{i:'💕',t:'Cows cycle every 21 days'},{i:'⏳',t:'9 months gestation'},{i:'🐣',t:'1 calf per birth'},{i:'🥛',t:'Calf suckles 6–8 months'}]},yt:{label:'Cattle breeding reproduction management Nigeria',url:'https://www.youtube.com/results?search_query=cattle+breeding+reproduction+management+Nigeria'},body:`<p>Cows cycle every 21 days. Gestation is <strong>9 months (283 days)</strong>. Signs of heat: restlessness, mounting other cattle, reduced milk, swollen vulva. Use a proven bull or AI (artificial insemination) with Friesian semen for dairy upgrading.</p><p>Calving interval target: one calf per cow per year. Ensure calf drinks colostrum within 2 hours of birth.</p>`,tips:['AI with Friesian semen upgrades local cattle for dairy','Colostrum within 2 hours of birth is critical','Target one calf per cow per year'],warnings:['Calves that miss colostrum have high mortality in first weeks'],notes:['AI programmes available through NAPRI and state vet services']},
+      {name:'Selling & Income',short:'Selling',duration:'18–24 months (beef) / ongoing (dairy)',scene:{emoji:'💰🐄🏪',title:'Revenue streams',steps:[{i:'🥩',t:'Beef: sell at 200–350kg'},{i:'🥛',t:'Dairy: sell 10–18L/day'},{i:'🦴',t:'Hides: export market'},{i:'🕌',t:'Sallah season premium'}]},yt:{label:'Cattle beef dairy sales Nigeria income',url:'https://www.youtube.com/results?search_query=cattle+beef+dairy+sales+income+Nigeria'},body:`<p><strong>Beef cattle:</strong> sell at 18–24 months at 200–350kg live weight. Peak prices at Sallah (Eid al-Adha) — plan breeding cycle to have cattle ready for this period. Hides sold after slaughter add additional income.</p><p><strong>Dairy:</strong> fresh milk sells at ₦500–₦1,000/litre. A Friesian crossbred producing 15 litres/day generates ₦7,500–₦15,000 daily. Excess milk can be made into Fura (Fulani fermented milk) for local sale.</p>`,tips:['Time beef sales for Sallah season','Dairy: 15L/day = ₦7,500–₦15,000 daily income','Sell hides to leather factories','Fura/nono from excess milk = extra income'],warnings:['Raw milk spoils in 4 hours without refrigeration'],notes:['Sokoto Gudali bulls sell for ₦500,000–₦1.5M at maturity']}
+    ]
+  },
+  {
+    id:'pig',icon:'🐖',name:'Pig (Swine) Farming',sci:'Sus scrofa domesticus',type:'animal',
+    category:['animal'],duration:'5–6 months to market weight',zone:'Southern & Middle Belt Nigeria',yield:'80–120kg/pig at market',
+    why:'Pig farming has one of the highest feed-to-meat conversion rates of any livestock — 3:1 (3kg feed produces 1kg meat) vs 8:1 for cattle. A sow can produce 2 litters of 8–12 piglets per year. Pork demand is high in southern Nigeria, and processed pork products are a growing market.',
+    tags:[{t:'Fast weight gain',c:'g'},{t:'High ROI',c:'g'},{t:'South Nigeria',c:'o'},{t:'2 litters/yr',c:'b'}],
+    stages:[
+      {name:'Housing & Pen Construction',short:'Housing',duration:'2–3 weeks',scene:{emoji:'🏠🐖🚿',title:'Pig pen setup',steps:[{i:'🏠',t:'Concrete floor pen'},{i:'🚿',t:'Drainage channel essential'},{i:'📐',t:'2m² per pig'},{i:'🌬️',t:'Ventilation & shade'}]},yt:{label:'Pig pen construction housing Nigeria piggery',url:'https://www.youtube.com/results?search_query=pig+pen+construction+Nigeria+piggery'},body:`<p>Build pens with <strong>concrete floors</strong> and proper drainage channels — pigs produce a lot of liquid waste. Allocate <strong>2m² per growing pig</strong>; sows need larger pens (4–5m² for farrowing). Build separate pens for sows, growing pigs, and boars. Cover with a solid roof — pigs cannot tolerate direct sun (no sweat glands).</p>`,tips:['Concrete floor with drainage channel','2m² per growing pig','Separate farrowing pen for sows','Cover roof essential — pigs overheat in direct sun'],warnings:['Pigs in direct sun suffer heatstroke quickly','Poor drainage = disease spread'],notes:['Biogas plant from pig waste is a valuable by-product opportunity']},
+      {name:'Breed & Stock Selection',short:'Breeds',duration:'Pre-purchase',scene:{emoji:'🐖🔍📋',title:'Pig breeds Nigeria',steps:[{i:'🐖',t:'Large White — fastest growth'},{i:'🐷',t:'Landrace — large litter size'},{i:'🥩',t:'Duroc crossbred — best meat quality'},{i:'💪',t:'Local × exotic cross — hardy & productive'}]},yt:{label:'Pig breeds selection Nigeria Large White Landrace',url:'https://www.youtube.com/results?search_query=pig+breeds+Nigeria+Large+White+Landrace+selection'},body:`<p><strong>Large White</strong>: fastest growth rate, most common in Nigeria. <strong>Landrace</strong>: large litter size (10–14 piglets), good for sow production. <strong>Duroc crossbred</strong>: best meat quality and marbling. Buy gilts (young females) and a boar from certified farms with vaccination and deworming records.</p>`,tips:['Large White for fastest growth','Landrace for large litters','Source from farms with health records'],warnings:['Buying from open markets without health history risks ASF (African Swine Fever)'],notes:['Large White × Landrace cross combines fast growth and large litters']},
+      {name:'Feeding Programme',short:'Feeding',duration:'Full 5–6 month cycle',scene:{emoji:'🌽🐖📊',title:'Pig feeding',steps:[{i:'🌽',t:'Starter: 0–8 weeks'},{i:'🌾',t:'Grower: 8–16 weeks'},{i:'🥩',t:'Finisher: 16–24 weeks'},{i:'🥛',t:'Sows need extra feed when pregnant'}]},yt:{label:'Pig feeding programme Nigeria grower finisher',url:'https://www.youtube.com/results?search_query=pig+feeding+programme+Nigeria+grower+finisher'},body:`<p>Feed 3 times daily. Phase feeding:</p><p><strong>Starter (0–8 weeks):</strong> 22% protein. <strong>Grower (8–16 weeks):</strong> 16–18% protein. <strong>Finisher (16–24 weeks):</strong> 14–16% protein, high energy for fat cover. Pigs can also be fed locally mixed rations — maize, soybean meal, fish meal, bone meal, vitamin premix.</p><p>Pregnant sows need increased feeding (+500g/day) from week 3 of pregnancy. Lactating sows need 5–6kg/day to maintain milk and body condition.</p>`,tips:['Feed 3 times daily','Locally mixed rations cut feed cost by 30–40%','Increase feed for pregnant and lactating sows','Water always available'],warnings:['Maize alone without protein supplement causes slow growth and deficiencies'],notes:['Local feed formulation: 60% maize + 20% soya + 10% fishmeal + 10% vitamin premix']},
+      {name:'Health Management',short:'Health',duration:'Scheduled + ongoing',scene:{emoji:'💉🐖🔬',title:'Pig health plan',steps:[{i:'⚠️',t:'Watch for ASF — no vaccine exists'},{i:'💉',t:'CSF vaccine every 6 months'},{i:'🦠',t:'Deworm every 3 months'},{i:'🔒',t:'Strict biosecurity is #1 protection'}]},yt:{label:'Pig health management ASF CSF Nigeria biosecurity',url:'https://www.youtube.com/results?search_query=pig+health+management+ASF+CSF+Nigeria'},body:`<p><strong>African Swine Fever (ASF)</strong> is the most dangerous disease — no vaccine exists, no treatment, 100% fatal in affected pigs. Prevention is everything: strict biosecurity, no introduction of unknown pigs, no bushmeat near the farm.</p><p>Vaccinate against <strong>Classical Swine Fever (CSF)</strong> every 6 months. Deworm every 3 months. Control external parasites monthly. Always maintain a footbath at the farm entrance.</p>`,tips:['Strict biosecurity is the #1 protection against ASF','CSF vaccine every 6 months','Deworm every 3 months','2-week quarantine for all new pigs'],warnings:['ASF has no cure — it kills 100% of affected pigs','Never bring bushmeat near your piggery'],notes:['State vet offices provide CSF vaccine — keep the cold chain']},
+      {name:'Breeding & Farrowing',short:'Breeding',duration:'3 months 3 weeks 3 days',scene:{emoji:'💕🐖🐣',title:'Pig reproduction',steps:[{i:'💕',t:'Sows cycle every 21 days'},{i:'⏳',t:'114 days gestation (3-3-3)'},{i:'🐣',t:'8–14 piglets per litter'},{i:'✌️',t:'2 litters per sow per year'}]},yt:{label:'Pig breeding farrowing management Nigeria',url:'https://www.youtube.com/results?search_query=pig+breeding+farrowing+management+Nigeria'},body:`<p>Sows cycle every 21 days. Gestation: <strong>3 months, 3 weeks, 3 days (114 days)</strong>. A well-managed sow produces <strong>2 litters of 8–14 piglets per year</strong>. Provide a clean, quiet farrowing pen 3–4 days before the expected birth. Install a heat lamp for piglets in the first week. Ensure all piglets suckle colostrum within 2 hours.</p>`,tips:['2 litters per sow per year = rapid herd expansion','Clean quiet farrowing pen 3–4 days before birth','Heat lamp for piglets in week 1','All piglets must get colostrum within 2 hours'],warnings:['Sow can crush piglets — install farrowing rails','Cold piglets in first week die quickly'],notes:['A sow producing 2 litters of 10 piglets = 20 pigs/year from one sow']},
+      {name:'Selling & Processing',short:'Selling',duration:'At 5–6 months, 80–120kg',scene:{emoji:'💰🐖🥓',title:'Selling pork',steps:[{i:'🔪',t:'Sell live or slaughtered'},{i:'🥓',t:'Processed pork = premium'},{i:'🏪',t:'Pork stalls & suya spots'},{i:'🍽️',t:'Supply restaurants & hotels'}]},yt:{label:'Pig selling processing pork Nigeria',url:'https://www.youtube.com/results?search_query=pig+selling+processing+pork+Nigeria'},body:`<p>Sell at <strong>80–120kg live weight</strong> at 5–6 months. Options: sell live at farm gate, sell slaughtered carcass to butchers, or sell processed pork cuts (smoked pork, pork chops, sausage) for premium price. Supply pork stalls, restaurants, hotels, and catering businesses directly.</p><p>Pig manure is also valuable — sell as organic fertilizer or use for your own crops.</p>`,tips:['Processed pork = significantly higher margin','Supply restaurants and hotels directly','Pig manure = valuable organic fertilizer'],warnings:['Never sell sick animals'],notes:['A well-fed Large White at 5–6 months sells for ₦120,000–₦200,000']}
+    ]
+  }
+];
+
+const ALL_ITEMS = [...CROPS, ...ANIMALS];
+
+/* ═══════════════════════════════════
+   MARKETPLACE DATA
+═══════════════════════════════════ */
+const PRODUCTS = [
+  {icon:'🌱',name:'DxP Palm Seedlings',seller:'NIFOR Certified Nursery, Benin',price:'₦850',unit:'/seedling',bg:'#e8f5e9',badge:'Certified',bc:'badge-org',cat:'seeds'},
+  {icon:'🧪',name:'NPK 15-15-15 Fertilizer',seller:'GreenAgro Supplies, Lagos',price:'₦24,500',unit:'/50kg bag',bg:'#fff8e1',badge:'Organic',bc:'badge-org',cat:'fertilizer'},
+  {icon:'🐣',name:'Day-Old Broiler Chicks',seller:'Chi Farms Hatchery, Lagos',price:'₦650',unit:'/chick',bg:'#fffde7',badge:'Certified',bc:'badge-org',cat:'livestock'},
+  {icon:'🐟',name:'Catfish Fingerlings (5–8cm)',seller:'AquaFarm Hatchery, Ibadan',price:'₦120',unit:'/fingerling',bg:'#e3f2fd',badge:'Local',bc:'badge-loc',cat:'livestock'},
+  {icon:'🛢️',name:'Crude Palm Oil — Grade A',seller:'Rivers State Co-op Farmers',price:'₦1,100',unit:'/litre',bg:'#fff3e0',badge:'Export',bc:'badge-exp',cat:'processed'},
+  {icon:'⚙️',name:'Mini Palm Oil Press',seller:'AgroMech Works, Aba',price:'₦320,000',unit:'/unit',bg:'#f3e5f5',badge:'Local',bc:'badge-loc',cat:'tools'},
+  {icon:'🌿',name:'Cassava Stems — TMS 30572',seller:'IITA Certified, Ibadan',price:'₦1,200',unit:'/bundle',bg:'#e8f5e9',badge:'Certified',bc:'badge-org',cat:'seeds'},
+  {icon:'🌽',name:'SAMMAZ 15 Maize Seed',seller:'ADP Kano State',price:'₦9,500',unit:'/5kg',bg:'#fff8e1',badge:'Certified',bc:'badge-org',cat:'seeds'},
+  {icon:'🍅',name:'Fresh Tomatoes — Grade A',seller:'Kaduna State Farmers',price:'₦18,000',unit:'/basket',bg:'#fce4ec',badge:'Local',bc:'badge-loc',cat:'produce'},
+  {icon:'🐔',name:'Broiler Starter Feed 25kg',seller:'Top Feeds Nigeria, Lagos',price:'₦16,500',unit:'/bag',bg:'#fff9c4',badge:'Certified',bc:'badge-org',cat:'livestock'},
+  {icon:'🐟',name:'Catfish Pellets 4mm 25kg',seller:'Coppens Feed Nigeria',price:'₦22,000',unit:'/bag',bg:'#e3f2fd',badge:'Organic',bc:'badge-org',cat:'livestock'},
+  {icon:'💉',name:'Newcastle Vaccine (100 doses)',seller:'Intervet Nigeria, Lagos',price:'₦3,500',unit:'/pack',bg:'#fce4ec',badge:'Certified',bc:'badge-org',cat:'livestock'},
+  {icon:'🥚',name:'Fresh Table Eggs — Crate 30',seller:'Plateau State Layer Farm',price:'₦4,200',unit:'/crate',bg:'#fff8e1',badge:'Local',bc:'badge-loc',cat:'produce'},
+  {icon:'🐐',name:'Red Sokoto Goat — Young',seller:'Kano Goat Breeders Assoc.',price:'₦85,000',unit:'/head',bg:'#e8f5e9',badge:'Local',bc:'badge-loc',cat:'livestock'},
+  {icon:'🔧',name:'Harvesting Sickle Long-Pole',seller:'FarmForge Tools, Owerri',price:'₦7,200',unit:'/unit',bg:'#fce4ec',badge:'Local',bc:'badge-loc',cat:'tools'},
+  {icon:'🍫',name:'Fermented Cocoa Beans',seller:'Ondo Cocoa Cooperative',price:'₦9,200',unit:'/kg',bg:'#fce4ec',badge:'Export',bc:'badge-exp',cat:'processed'},
+];
+
+const BUYERS = [
+  {flag:'🇬🇧',country:'United Kingdom',demand:'Yam, Palm Oil, Cocoa'},
+  {flag:'🇩🇪',country:'Germany',demand:'Cocoa, Groundnut, Sesame'},
+  {flag:'🇮🇳',country:'India',demand:'Sesame, Palm Oil, Cashew'},
+  {flag:'🇨🇳',country:'China',demand:'Palm Oil, Cassava Starch'},
+  {flag:'🇺🇸',country:'USA',demand:'Cocoa, Yam, Pepper'},
+  {flag:'🇳🇱',country:'Netherlands',demand:'Cocoa, Groundnut Oil'},
+  {flag:'🇸🇦',country:'Saudi Arabia',demand:'Goat (live), Sesame'},
+  {flag:'🇰🇪',country:'Kenya',demand:'Cassava, Maize, Beans'},
+  {flag:'🇫🇷',country:'France',demand:'Cocoa, Shea Butter'},
+  {flag:'🇮🇹',country:'Italy',demand:'Chilli Pepper, Cocoa'},
+  {flag:'🇨🇲',country:'Cameroon',demand:'Tomato, Yam, Palm Oil'},
+  {flag:'🇦🇪',country:'UAE',demand:'Goat (live), Catfish'},
+];
+
+/* ═══ ADVISOR DATA ═══ */
+const ADVISOR_DB = {
+  rainforest:{
+    sandy_loam:{crops:['palm','cassava','plantain','cocoa','yam'],animals:['catfish','poultry','pig']},
+    clay_loam:{crops:['palm','plantain','cassava','cocoa'],animals:['catfish','poultry']},
+    alluvial:{crops:['plantain','palm','cocoa','cassava'],animals:['catfish','pig']},
+    default:{crops:['palm','cassava','plantain'],animals:['catfish','poultry']}
+  },
+  derived_savanna:{
+    sandy_loam:{crops:['cassava','yam','maize','tomato','pepper'],animals:['poultry','catfish','goat']},
+    clay_loam:{crops:['cassava','yam','cocoa','palm'],animals:['poultry','catfish']},
+    default:{crops:['cassava','maize','yam'],animals:['poultry','catfish']}
+  },
+  guinea_savanna:{
+    sandy_loam:{crops:['maize','cassava','yam','tomato','cowpea','groundnut'],animals:['goat','poultry','cattle','pig']},
+    alluvial:{crops:['tomato','pepper','maize','cassava'],animals:['catfish','poultry','goat']},
+    default:{crops:['maize','cassava','tomato','cowpea'],animals:['goat','poultry']}
+  },
+  sudan_savanna:{
+    sandy_loam:{crops:['groundnut','maize','cowpea','tomato'],animals:['cattle','goat','poultry']},
+    sandy:{crops:['groundnut','cowpea','millet'],animals:['goat','cattle']},
+    default:{crops:['groundnut','maize','cowpea'],animals:['cattle','goat']}
+  },
+  sahel:{
+    sandy:{crops:['cowpea','groundnut','sesame'],animals:['goat','cattle']},
+    default:{crops:['cowpea','groundnut'],animals:['goat','cattle']}
+  }
+};
+
+const GOAL_MODIFIERS = {
+  quick:{boost:['maize','tomato','cowpea','poultry','catfish','pepper']},
+  export:{boost:['palm','cocoa','groundnut','cassava','yam','cattle','goat']},
+  income:{boost:['palm','tomato','pepper','poultry','catfish','pig']},
+  food:{boost:['cassava','maize','yam','cowpea','goat','poultry']}
+};
+
+const CROP_INFO = {
+  palm:{icon:'🌴',name:'Palm Oil',dur:'3–4 yrs',income:'₦1.5M–₦4M/ha'},
+  cassava:{icon:'🌿',name:'Cassava',dur:'8–18 months',income:'₦400K–₦1.2M/ha'},
+  maize:{icon:'🌽',name:'Maize',dur:'90–120 days',income:'₦150K–₦500K/ha'},
+  tomato:{icon:'🍅',name:'Tomato',dur:'60–90 days',income:'₦300K–₦1M/ha'},
+  yam:{icon:'🍠',name:'Yam',dur:'7–9 months',income:'₦500K–₦1.5M/ha'},
+  pepper:{icon:'🌶️',name:'Pepper',dur:'70–90 days',income:'₦200K–₦700K/ha'},
+  plantain:{icon:'🍌',name:'Plantain',dur:'9–12 months',income:'₦300K–₦900K/ha'},
+  groundnut:{icon:'🥜',name:'Groundnut',dur:'90–120 days',income:'₦200K–₦600K/ha'},
+  cowpea:{icon:'🫘',name:'Cowpea',dur:'60–75 days',income:'₦100K–₦350K/ha'},
+  cocoa:{icon:'🍫',name:'Cocoa',dur:'3–4 yrs',income:'₦2M–₦8M/ha'},
+  sesame:{icon:'🌾',name:'Sesame',dur:'90–110 days',income:'₦180K–₦500K/ha'},
+  millet:{icon:'🌾',name:'Millet',dur:'75–90 days',income:'₦80K–₦250K/ha'},
+  poultry:{icon:'🐔',name:'Poultry',dur:'6–8 weeks',income:'₦500K–₦900K/500 birds'},
+  catfish:{icon:'🐟',name:'Catfish',dur:'5–6 months',income:'₦400K–₦700K/pond'},
+  goat:{icon:'🐐',name:'Goat',dur:'7–8 months',income:'₦500K–₦1M/20 goats'},
+  cattle:{icon:'🐄',name:'Cattle',dur:'18–24 months',income:'₦350K–₦800K/head'},
+  pig:{icon:'🐖',name:'Pig',dur:'5–6 months',income:'₦120K–₦200K/head'},
+};
+
+/* ═══ TRANSLATIONS ═══ */
+const T = {
+  en:{'h-title':'<em>Grow</em> anything.<br><span class="green">Raise</span> livestock.<br>Sell everywhere.','h-sub':'Learn crop farming & animal husbandry from scratch. Get smart crop advice for your location. Shop inputs and sell globally.','h-cta1':'Start Learning →','h-cta2':'Get Crop Advice','h-s1':'Farmers enrolled','h-s2':'Crops covered','h-s3':'Animals covered','h-s4':'Export countries','fi1t':'Crops & Animals','fi1d':'Full guides for crop farming & livestock in Yoruba, Hausa, Igbo, English.','fi2t':'Smart Crop Advisor','fi2d':'GPS or manual location detects your zone and recommends the best crops for you.','fi3t':'Buy & Sell','fi3d':'Certified seeds, feeds, tools. List your harvest for local and global buyers.','fi4t':'Export Globally','fi4d':'Verified buyers in Europe, Asia, and Africa. Escrow payments, logistics support.','cr-title':'Crops & Animal Husbandry','cr-sub':'Choose any crop or animal below to open its complete step-by-step guide — from preparation to selling.'},
+  yo:{'h-title':'<em>Gbin</em> ohunkóhun.<br><span class="green">Tọ́</span> ẹran-ọsin.<br>Ta níbikíbi.','h-sub':'Kọ́ iṣẹ̀-àgbẹ̀ àti ẹran-ọsin láti ìpilẹ̀ẹ̀ṣẹ̀. Gba ìmọ̀-ràn tó dára fún ibi rẹ. Rà àwọn ohun èlò, tà káàkiri ayé.','h-cta1':'Bẹ̀rẹ̀ Kíkọ́ →','h-cta2':'Gba Ìmọ̀-ràn Irúgbìn','h-s1':'Àwọn Àgbẹ̀','h-s2':'Àwọn Irúgbìn','h-s3':'Àwọn Eranko','h-s4':'Àwọn Orílẹ̀-Èdè','fi1t':'Irúgbìn & Eranko','fi1d':'Ìtọ́nisọ́nà ní Yorùbá, Hausa, Igbo, Gẹ̀ẹ́sì.','fi2t':'Olùgbàwọràn Irúgbìn','fi2d':'GPS tàbí ìtẹ̀sí ọwọ́ máa ń sọ àgbègbè rẹ tó dára.','fi3t':'Rà & Tà','fi3d':'Irúgbìn tó fọwọ́sí, àjísọ, irinṣẹ̀. Ta ìkórè rẹ níbòo.','fi4t':'Sopọ̀ Káàkiri Ayé','fi4d':'Àwọn olùra tó wà nídọ̀tí ní Yúróòpù, Éṣíà, àti Áfríkà.','cr-title':'Irúgbìn & Ẹran-Ọsin','cr-sub':'Tẹ irúgbìn tàbí eranko èyíkéyìí láti ṣí ìtọ́sọ́nà àgbẹ̀ rẹ pé pé.'},
+  ha:{'h-title':'<em>Noma</em> komai.<br><span class="green">Kiwon</span> dabbobi.<br>Sayar ko ina.','h-sub':'Koyi noma da kiwo daga farko. Samu shawarwari mafi kyau don wurinka. Siya kayayyaki, sayar duniya.','h-cta1':'Fara Koyo →','h-cta2':'Samu Shawarar Amfanin Gona','h-s1':'Manoma','h-s2':'Amfanin Gona','h-s3':'Dabbobi','h-s4':'Ƙasashen Fitarwa','fi1t':'Amfanin Gona & Dabbobi','fi1d':'Jagora cikakke a Hausa, Yoruba, Igbo, Turanci.','fi2t':'Mai Ba da Shawarwari','fi2d':'GPS ko wurin da kuka shigar da hannu — mun gano yankinku.','fi3t':'Saya & Sayar','fi3d':'Iri na inganci, abincin dabbobi, kayan aiki. Siyar da amfanin gonarka.','fi4t':'Haɗu Da Duniya','fi4d':'Masu siye da aka tabbatar a Turai, Asiya, da Afirka.','cr-title':'Amfanin Gona & Kiwo','cr-sub':'Danna kowane amfanin gona ko dabba don buɗe cikakken jagora.'},
+  ig:{'h-title':'<em>Kuo</em> ihe ọ bụla.<br><span class="green">Zụọ</span> ọjị anụ.<br>Ree n\'ebe ọ bụla.','h-sub':'Mụta ọrụ ugbo na ọzụzụ anụ ụlọ site na mmalite. Nweta ndụmọdụ kwa mpaghara gị. Zụọ ihe i chọrọ, ree ụwa nile.','h-cta1':'Bido Ọmụmụ →','h-cta2':'Nweta Ndụmọdụ Ọrụ Ugbo','h-s1':'Ndị Ọrụ Ugbo','h-s2':'Ọrụ Ugbo','h-s3':'Anụ Ụlọ','h-s4':'Mba Maka Mbupụ','fi1t':'Ọrụ Ugbo & Anụ Ụlọ','fi1d':'Nduzi nke ọma n\'Igbo, Yoruba, Hausa, Bekee.','fi2t':'Onye Na-Atụ Aro Ọrụ Ugbo','fi2d':'GPS ma ọ bụ tinye aka — anyị achọpụtara mpaghara gị.','fi3t':'Zụọ & Ree','fi3d':'Mkpụrụ e kwadoro, nri anụ, ngwa ọrụ. Ree ihe i nwụlitara.','fi4t':'Jikọọ n\'Ụwa Nile','fi4d':'Ndị ahịa e kwadoro n\'Europe, Asia, na Africa.','cr-title':'Ọrụ Ugbo & Ọzụzụ Anụ Ụlọ','cr-sub':'Pịa ọrụ ugbo ma ọ bụ anụ ọ bụla ka i mepee nduzi nke ọma.'}
+};
+
+/* ═══ APP STATE ═══ */
+let currentLang='en', currentFilter='all', currentItem=null, currentStage=0, goals=new Set(), marketFilter='all';
+
+/* ═══ NAVIGATION ═══ */
+function goPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('nav-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='crops') renderGrid();
+  if(name==='market') renderMarket();
+}
+
+/* ═══ LANGUAGE ═══ */
+function setLang(code,btn){
+  currentLang=code;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const t=T[code];
+  Object.keys(t).forEach(k=>{const el=document.getElementById(k);if(el)el.innerHTML=t[k];});
+}
+
+/* ═══ LEARN GRID ═══ */
+function renderGrid(){
+  const grid=document.getElementById('crops-grid');
+  const search=(document.getElementById('crop-search')||{}).value||'';
+  const items=ALL_ITEMS.filter(c=>{
+    const ms=!search||c.name.toLowerCase().includes(search.toLowerCase());
+    const mf=currentFilter==='all'||c.category.includes(currentFilter);
+    return ms&&mf;
+  });
+  grid.innerHTML=items.map(c=>`
+    <div class="crop-card${c.type==='animal'?' animal-card':''}" onclick="${c.type==='animal'?`openAnimal('${c.id}')`:`openCrop('${c.id}')`}">
+      <div class="crop-card-top">
+        ${c.demo?'<div class="demo-badge">Demo Crop</div>':''}
+        ${c.type==='animal'?'<div class="animal-badge">🐄 Animal</div>':''}
+        <span class="crop-card-icon">${c.icon}</span>
+        <div class="crop-card-name">${c.name}</div>
+        <div class="crop-card-sci">${c.sci}</div>
+        <div class="crop-card-why">${c.why.substring(0,130)}...</div>
+        <div class="crop-card-tags">${c.tags.map(t=>`<span class="ctag ${t.c}">${t.t}</span>`).join('')}</div>
+      </div>
+      <div class="crop-card-footer">
+        <div class="cf-duration">⏱ ${c.duration}</div>
+        <button class="cf-btn">Open Guide →</button>
+      </div>
+    </div>
+  `).join('');
+}
+function setCropFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderGrid();}
+function filterCrops(){renderGrid();}
+
+/* ═══ DETAIL ═══ */
+function openCrop(id){const item=ALL_ITEMS.find(c=>c.id===id);if(!item)return;openDetail(item);}
+function openAnimal(id){const item=ALL_ITEMS.find(c=>c.id===id);if(!item)return;openDetail(item);}
+function openDetail(item){
+  currentItem=item;currentStage=0;
+  renderDetailHero();
+  goPage('detail');
+  document.getElementById('nav-crops').classList.add('active');
+}
+function renderDetailHero(){
+  const c=currentItem;
+  const isAnimal=c.type==='animal';
+  const accentColor=isAnimal?'var(--sky)':'var(--palm)';
+  document.getElementById('detail-hero').innerHTML=`
+    <button class="detail-back" onclick="goPage('crops')">← Back to Library</button>
+    <div class="detail-hero-inner">
+      <div class="detail-icon">${c.icon}</div>
+      <div>
+        <div class="detail-title">${c.name}</div>
+        <div class="detail-sci">${c.sci}</div>
+        <div class="detail-why">${c.why}</div>
+        <div class="detail-meta">
+          <span class="dmeta">⏱ ${c.duration}</span>
+          <span class="dmeta">📍 ${c.zone}</span>
+          <span class="dmeta">📦 ${c.yield}</span>
+          ${isAnimal?'<span class="dmeta" style="background:rgba(26,95,138,.15);color:var(--sky)">🐄 Animal Husbandry</span>':''}
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('stages-nav').innerHTML=c.stages.map((s,i)=>`
+    <button class="stage-nav-btn ${i===0?'active':''}" onclick="goStage(${i})">
+      <span class="stage-nav-num">${i+1}</span>${s.short}
+    </button>`).join('');
+  renderStage();
+}
+function goStage(idx){
+  currentStage=idx;
+  document.querySelectorAll('.stage-nav-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  renderStage();
+  document.querySelector('.stage-content').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderStage(){
+  const c=currentItem, s=c.stages[currentStage];
+  const pct=Math.round(((currentStage+1)/c.stages.length)*100);
+  const isAnimal=c.type==='animal';
+  const nextColor=isAnimal?'var(--sky)':'var(--leaf)';
+  const scene=s.scene||{};
+  const yt=s.yt||{};
+  document.getElementById('stage-content').innerHTML=`
+    <div class="sc-header">
+      <div><div class="sc-num">Stage ${currentStage+1} of ${c.stages.length}</div><div class="sc-title">${s.name}</div></div>
+      <div class="sc-duration-badge">⏱ ${s.duration}</div>
+    </div>
+    ${scene.emoji?`
+    <div class="sc-visual">
+      <div class="sc-visual-inner">
+        <div class="sc-emoji-scene">${scene.emoji}</div>
+        <div class="sc-visual-info">
+          <div class="sc-visual-title">${scene.title||'Visual overview'}</div>
+          <div class="sc-visual-steps">
+            ${(scene.steps||[]).map(step=>`<div class="sc-vstep"><span class="sc-vstep-icon">${step.i}</span><span class="sc-vstep-text">${step.t}</span></div>`).join('')}
+          </div>
+          ${yt.url?`<a class="yt-link" href="${yt.url}" target="_blank" rel="noopener"><span class="yt-icon">▶</span> Watch on YouTube: ${yt.label||'Related video'}</a>`:''}
+        </div>
+      </div>
+    </div>`:''}
+    <div class="sc-body">
+      <div class="sc-text">${s.body}</div>
+      <div class="info-cards">
+        ${s.tips&&s.tips.length?`<div class="info-card"><div class="ic-label green">✅ Key Tips</div><div class="ic-items">${s.tips.map(t=>`<div class="ic-item"><div class="ic-dot green"></div><div>${t}</div></div>`).join('')}</div></div>`:''}
+        ${s.warnings&&s.warnings.length?`<div class="info-card"><div class="ic-label red">⚠ Avoid These Mistakes</div><div class="ic-items">${s.warnings.map(w=>`<div class="ic-item"><div class="ic-dot red"></div><div>${w}</div></div>`).join('')}</div></div>`:''}
+        ${s.notes&&s.notes.length?`<div class="info-card"><div class="ic-label gold">💡 Good to Know</div><div class="ic-items">${s.notes.map(n=>`<div class="ic-item"><div class="ic-dot gold"></div><div>${n}</div></div>`).join('')}</div></div>`:''}
+      </div>
+    </div>
+    <div class="stage-nav-footer">
+      <button class="snf-btn prev" onclick="goStage(${currentStage-1})" ${currentStage===0?'disabled':''}>← Previous</button>
+      <div class="stage-progress"><span>${pct}% complete</span><div class="sp-bar"><div class="sp-fill" style="width:${pct}%;background:${nextColor}"></div></div></div>
+      <button class="snf-btn next" onclick="goStage(${currentStage+1})" ${currentStage===c.stages.length-1?'disabled':''} style="background:${nextColor}">Next Stage →</button>
+    </div>`;
+}
+
+/* ═══ SMART ADVISOR ═══ */
+function getGPS(){
+  const status=document.getElementById('gps-status');
+  if(!navigator.geolocation){status.textContent='GPS not supported on this device.';return;}
+  status.textContent='📡 Detecting your location...';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const {latitude:lat,longitude:lng}=pos.coords;
+    const zone=detectZoneFromCoords(lat,lng);
+    document.getElementById('af-location').value=`${lat.toFixed(4)}, ${lng.toFixed(4)} (GPS detected)`;
+    if(zone){
+      document.getElementById('af-zone').value=zone;
+      status.textContent=`✅ Location detected! Zone set to: ${document.getElementById('af-zone').options[document.getElementById('af-zone').selectedIndex].text}`;
+    } else {
+      status.textContent=`✅ GPS coordinates captured. Please select your zone manually.`;
+    }
+  },err=>{status.textContent='⚠ Could not detect location. Please enter manually.';});
+}
+function detectZoneFromCoords(lat,lng){
+  if(lat>=12)return'sahel';
+  if(lat>=10&&lat<12)return'sudan_savanna';
+  if(lat>=7.5&&lat<10)return'guinea_savanna';
+  if(lat>=6&&lat<7.5)return'derived_savanna';
+  if(lat<6)return'rainforest';
+  return'';
+}
+function toggleGoal(el){if(el.checked)goals.add(el.value);else goals.delete(el.value);el.closest('.af-option').classList.toggle('selected',el.checked);}
+function runAdvisor(){
+  const zone=document.getElementById('af-zone').value;
+  const soil=document.getElementById('af-soil').value;
+  const season=document.getElementById('af-season').value;
+  const size=document.getElementById('af-size').value;
+  if(!zone){alert('Please select your agro-ecological zone or use GPS.');return;}
+  const zoneData=ADVISOR_DB[zone]||(ADVISOR_DB.guinea_savanna);
+  const recs=zoneData[soil]||zoneData.default||{crops:['maize','cassava'],animals:['poultry']};
+  let allRecs=[...recs.crops,...recs.animals];
+  // Score each recommendation
+  let scored=allRecs.map(id=>{
+    let score=60+Math.floor(Math.random()*20);
+    goals.forEach(g=>{if(GOAL_MODIFIERS[g]&&GOAL_MODIFIERS[g].boost.includes(id))score+=15;});
+    if(season==='dry_season'&&['tomato','pepper','catfish'].includes(id))score+=10;
+    if(season==='early_rains'&&['maize','cassava','yam'].includes(id))score+=10;
+    if(size==='large'&&['palm','cassava','maize','cattle'].includes(id))score+=8;
+    if(size==='small'&&['tomato','pepper','poultry','catfish','goat'].includes(id))score+=8;
+    return{id,score:Math.min(score,99)};
+  });
+  scored.sort((a,b)=>b.score-a.score);
+  const top=scored.slice(0,4);
+  const zoneLabel={'rainforest':'Rainforest Zone','derived_savanna':'Derived Savanna','guinea_savanna':'Guinea Savanna','sudan_savanna':'Sudan Savanna','sahel':'Sahel Savanna'}[zone]||zone;
+  const rankClass=['r1','r2','r3',''];
+  const colors=['#3a7a2e','#185FA5','#c8441a','#7a4f1e'];
+  document.getElementById('advisor-results').innerHTML=`
+    <div style="margin-bottom:1.2rem;padding:1rem 1.3rem;background:#fff;border-radius:12px;border:1px solid rgba(61,43,14,.07);">
+      <div style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(26,18,8,.4);margin-bottom:.4rem">📍 Analysis for ${zoneLabel}</div>
+      <div style="font-size:.85rem;color:rgba(26,18,8,.65)">Based on your <strong>${soil?soil.replace('_',' '):'selected soil'}</strong>, season, and goals — here are your top recommendations:</div>
+    </div>
+    ${top.map((r,i)=>{
+      const info=CROP_INFO[r.id]||{icon:'🌾',name:r.id,dur:'Varies',income:'Varies'};
+      const isAnim=ANIMALS.find(a=>a.id===r.id);
+      const reason=buildReason(r.id,zone,soil,season,size,[...goals]);
+      return`<div class="result-card" style="animation-delay:${i*0.1}s">
+        <div class="rc-header">
+          <div class="rc-rank ${rankClass[i]||''}">${['🥇','🥈','🥉','4'][i]}</div>
+          <div class="rc-icon">${info.icon}</div>
+          <div><div class="rc-name">${info.name}</div><div class="rc-zone">${isAnim?'🐄 Animal Husbandry':'🌾 Crop'} · ${info.dur}</div></div>
+          <div style="margin-left:auto;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;color:${colors[i]}">${r.score}%</div>
+        </div>
+        <div class="rc-score-bar"><div class="rc-score-fill" style="width:${r.score}%;background:${colors[i]}"></div></div>
+        <div class="rc-body">
+          <div class="rc-reason">${reason}</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">${info.dur}</div><div class="rc-stat-key">Time to income</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">${info.income}</div><div class="rc-stat-key">Income potential</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">${r.score}%</div><div class="rc-stat-key">Suitability score</div></div>
+          </div>
+        </div>
+        <div class="rc-actions">
+          <button class="rc-btn primary" onclick="${isAnim?`openAnimal('${r.id}')`:`openCrop('${r.id}')`}">📖 Open Full Guide</button>
+          <button class="rc-btn secondary" onclick="goPage('market')">🛒 Buy Inputs</button>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+function buildReason(id,zone,soil,season,size,goals){
+  const reasons={
+    palm:`Palm oil is ideal for the ${zone.replace('_',' ')} zone. Your soil and rainfall pattern support strong palm yields. This is a long-term investment with 25+ years of annual income.`,
+    cassava:`Cassava thrives in ${zone.replace('_',' ')} conditions and tolerates your soil type well. It fits well in ${season?season.replace('_',' '):''} planting. Fast to establish and multiple income streams.`,
+    maize:`Maize is perfectly suited for ${zone.replace('_',' ')}. ${season==='early_rains'?'Early rains season is ideal for planting.':''} High demand from feed companies ensures a ready market year-round.`,
+    tomato:`Tomatoes perform best in ${zone.replace('_',' ')} with irrigation. ${season==='dry_season'?'Dry season planting gives premium quality and high prices.':'Can be grown with irrigation this season.'} High local demand.`,
+    yam:`Yam is culturally and economically valuable in your zone. ${soil==='sandy_loam'?'Your sandy loam soil is ideal for deep yam tuber development.':''} Premium prices especially at new yam festivals.`,
+    pepper:`Pepper suits your zone well and has year-round demand. ${season==='dry_season'?'Dry season with irrigation gives the best quality fruit.':''} Dried pepper commands 3–5x the fresh price.`,
+    plantain:`Plantain is well-adapted to ${zone.replace('_',' ')} conditions and your soil type. Provides income every 6–9 months per ratoon cycle. Plantain chips processing adds significant value.`,
+    groundnut:`Groundnut thrives in your zone's conditions and fixes nitrogen in your soil. ${goals.includes('export')?'Strong export demand from Europe and Asia.':''} Good fit for your farm size.`,
+    cowpea:`Cowpea is ideal for your zone — drought tolerant and fixes nitrogen. ${size==='small'?'Excellent for small-scale farmers.':''} High daily demand in Nigerian cities and diaspora markets.`,
+    cocoa:`Cocoa is highly profitable for your zone. ${zone==='rainforest'?'The rainforest zone is perfect for cocoa production.':''} At ₦9,000+/kg, even a small farm can generate millions annually.`,
+    poultry:`Poultry farming works well in any zone and requires limited land. ${goals.includes('quick')?'Fast 6-week cycle is ideal for quick returns.':''} High consistent demand in your region.`,
+    catfish:`Catfish farming is highly profitable with minimal land requirement. ${zone==='rainforest'||zone==='derived_savanna'?'Your zone has good water access for pond farming.':''} One of Nigeria's fastest-growing food sectors.`,
+    goat:`Goats are well-adapted to your ${zone.replace('_',' ')} zone. ${zone==='guinea_savanna'||zone==='sudan_savanna'?'Northern/Middle Belt zones have excellent goat browse.':''} Low maintenance and high Sallah season prices.`,
+    cattle:`Cattle farming suits your ${zone.replace('_',' ')} zone well. ${size==='large'?'Your farm size can support cattle ranging and pasture establishment.':''} Long-term high-value investment.`,
+    pig:`Pig farming has the best feed-to-meat conversion ratio of any livestock. ${zone!=='sahel'&&zone!=='sudan_savanna'?'Your zone has good crop residue availability for feed.':''} Fast 5-month cycle with high returns.`,
+  };
+  return reasons[id]||`This crop/animal is well-suited to your selected zone and conditions. Click "Open Full Guide" to learn how to start.`;
+}
+
+/* ═══ MARKETPLACE ═══ */
+function renderMarket(){renderProducts();renderBuyers();}
+function renderProducts(){
+  const grid=document.getElementById('products-grid');
+  const f=marketFilter;
+  const filtered=f==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===f||(f==='local'&&p.bc==='badge-loc')||(f==='export'&&p.bc==='badge-exp'));
+  grid.innerHTML=filtered.map(p=>`
+    <div class="product-card">
+      <div class="pc-img" style="background:${p.bg}">${p.icon}<span class="pc-badge ${p.bc}">${p.badge}</span></div>
+      <div class="pc-body">
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-seller">${p.seller}</div>
+        <div class="pc-footer">
+          <div class="pc-price">${p.price}<span class="pc-unit"> ${p.unit}</span></div>
+          <button class="add-cart" onclick="addToCart(this)">+</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function renderBuyers(){
+  document.getElementById('buyers-grid').innerHTML=BUYERS.map(b=>`
+    <div class="buyer-card"><div class="bc-flag">${b.flag}</div><div class="bc-country">${b.country}</div><div class="bc-demand">${b.demand}</div></div>`).join('');
+}
+function filterMarket(f,el){marketFilter=f;document.querySelectorAll('.ms-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');renderProducts();}
+function addToCart(btn){btn.textContent='✓';btn.style.background='var(--leaf)';btn.style.color='#fff';setTimeout(()=>{btn.textContent='+';btn.style.background='';btn.style.color='';},1600);}
+
+// Init
+renderGrid();
+renderMarket();
+</script>
+</body>
+</html>
